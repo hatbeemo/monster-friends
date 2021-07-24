@@ -7,7 +7,6 @@ speed = 0;
 /// @DnDVersion : 1
 /// @DnDHash : 5F510FBC
 /// @DnDArgument : "spriteind" "spr_char_whimsie_down"
-/// @DnDSaveInfo : "spriteind" "6c64f9d0-892a-4fbe-86a3-a7f5ddfd8b52"
 sprite_index = spr_char_whimsie_down;
 image_index = 0;
 

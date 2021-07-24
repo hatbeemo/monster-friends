@@ -15,7 +15,6 @@ speed = spd;
 /// @DnDHash : 74F1F8A5
 /// @DnDArgument : "imageind_relative" "1"
 /// @DnDArgument : "spriteind" "spr_char_whimsie_right"
-/// @DnDSaveInfo : "spriteind" "f46767b1-04f4-477e-8384-41153e1037f4"
 sprite_index = spr_char_whimsie_right;
 image_index += 0;
 
