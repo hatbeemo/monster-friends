@@ -31,3 +31,5 @@ _inst_menu=instance_create_depth(32+6+46,168+6+14,0,text_typer);
 _inst_menu.text=_prefix+"{space_y 2}"+(Item_GetNumber()<=0 ? "{color_text `gray`}" : "")+Lang_GetString("ui.menu.item")+(Item_GetNumber()<=0 ? "{color_text `white`}" : "")+"&"+Lang_GetString("ui.menu.stat")+(Phone_GetNumber()>0 ? "&"+Lang_GetString("ui.menu.phone") : "");
 
 audio_play_sound(snd_menu_switch,0,false);
+_can_cancel=false
+alarm[0]=1

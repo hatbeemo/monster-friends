@@ -19,9 +19,9 @@ Input_Bind(INPUT.LEFT,INPUT_TYPE.KEYBOARD,0,vk_left);
 Input_Bind(INPUT.RIGHT,INPUT_TYPE.KEYBOARD,0,vk_right);
 
 Lang_Init();
-Lang_LoadList();
+//Lang_LoadList();
 Lang_LoadString(0);
-Lang_LoadSprite(0);
+//Lang_LoadSprite(0);
 Lang_LoadFont(0);
 
 Flag_Init();

@@ -1,72 +1,42 @@
 ///@arg lang_id/name
 function Lang_LoadString() {
-	var LANG=argument[0];
+	var MAP=global._gmu_lang_string;
+	ds_map_add(MAP,"ui.menu.item","ITEM");
+	ds_map_add(MAP,"ui.menu.item.use","USE");
+	ds_map_add(MAP,"ui.menu.item.info","INFO");
+	ds_map_add(MAP,"ui.menu.item.drop","DROP");
+	ds_map_add(MAP,"ui.menu.stat","STAT");
+	ds_map_add(MAP,"ui.menu.phone","CELL");
+	
+	ds_map_add(MAP,"font.dialog.0","determination_mono")
+	ds_map_add(MAP,"font.dialog.0.scale.x","1")
+	ds_map_add(MAP,"font.dialog.0.scale.y","1")
+	ds_map_add(MAP,"font.dialog.0.space.x","0")
+	ds_map_add(MAP,"font.dialog.1","determination_mono")
+	ds_map_add(MAP,"font.dialog.1.scale.x","1")
+	ds_map_add(MAP,"font.dialog.1.scale.y","1")
+	ds_map_add(MAP,"font.dialog.1.space.x","0")
+	ds_map_add(MAP,"font.dialog.space.y","0")
 
-	if(!Lang_IsExists(LANG)){
-		return false;
-	}
+	ds_map_add(MAP,"font.menu.0","determination_sans")
+	ds_map_add(MAP,"font.menu.0.scale.x","1")
+	ds_map_add(MAP,"font.menu.0.scale.y","1")
+	ds_map_add(MAP,"font.menu.0.space.x","0")
+	ds_map_add(MAP,"font.menu.1","determination_sans")
+	ds_map_add(MAP,"font.menu.1.scale.x","1")
+	ds_map_add(MAP,"font.menu.1.scale.y","1")
+	ds_map_add(MAP,"font.menu.1.space.x","0")
+	ds_map_add(MAP,"font.menu.space.y","0")
 
-	if(is_real(LANG)){
-		LANG=Lang_GetName(LANG);
-	}
-
-	if(!file_exists(GMU_LANG_PATH_BASE+LANG+"/"+GMU_LANG_PATH_STRING)){
-		return false;
-	}
-
-	var LIST=Lang_LoadFileToString(GMU_LANG_PATH_BASE+LANG+"/"+GMU_LANG_PATH_STRING);
-	var FILE=file_text_open_from_string(LIST);
-	while(!file_text_eof(FILE)){
-		var TARGET=file_text_read_string(FILE);
-		file_text_readln(FILE);
-		var PATH=GMU_LANG_PATH_BASE+LANG+"/"+TARGET;
-		if(file_exists(PATH)){
-			var STR=Lang_LoadFileToString(PATH);
-			var proc=0;
-			var str_mode=false;
-			var str_input_name=true;
-			var str_name="";
-			var str_text="";
-			var MAP=global._gmu_lang_string;
-			while(string_length(STR)>proc){
-				proc+=1;
-				var CHAR=string_char_at(STR,proc);
-				if(CHAR="\""){
-					str_mode=!str_mode;
-				
-					if(!str_mode){
-						str_input_name=!str_input_name;
-					
-						if(str_input_name){
-							ds_map_replace(MAP,str_name,str_text);
-							str_name="";
-							str_text="";
-						}
-					}
-				}else if(str_mode){
-					if(CHAR!="\t" && CHAR!="\n" && CHAR!="\r"){
-						if(CHAR=="\\"){
-							proc+=1;
-							CHAR=string_char_at(STR,proc);
-						
-							if(CHAR=="n"){
-								CHAR="\n";
-							}
-							if(CHAR=="\\"){
-								CHAR="\\"
-							}
-						}
-						if(str_input_name){
-							str_name+=CHAR;
-						}else{
-							str_text+=CHAR;
-						}
-					}
-				}
-			}
-		}
-	}
-	file_text_close(FILE);
+	ds_map_add(MAP,"font.battle.0","dotumche")
+	ds_map_add(MAP,"font.battle.0.scale.x","1")
+	ds_map_add(MAP,"font.battle.0.scale.y","1")
+	ds_map_add(MAP,"font.battle.0.space.x","0")
+	ds_map_add(MAP,"font.battle.1","dotumche")
+	ds_map_add(MAP,"font.battle.1.scale.x","1")
+	ds_map_add(MAP,"font.battle.1.scale.y","1")
+	ds_map_add(MAP,"font.battle.1.space.x","0")
+	ds_map_add(MAP,"font.battle.space.y","0")
 	return true;
 
 

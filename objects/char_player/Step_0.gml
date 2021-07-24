@@ -49,7 +49,9 @@ if(can_move){
 	}
 	if(!instance_exists(ui_dialog)){
 		if(Input_IsPressed(INPUT.MENU)){
-			instance_create_depth(0,0,0,ui_menu);
+			if(_can_menu==true){
+				instance_create_depth(0,0,0,ui_menu);
+			}
 		}
 	}
 }

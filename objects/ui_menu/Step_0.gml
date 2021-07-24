@@ -40,7 +40,11 @@ if(_menu==-1){
 				audio_play_sound(snd_menu_confirm,0,false);
 				break;
 		}
-	}else if(Input_IsPressed(INPUT.MENU)||Input_IsPressed(INPUT.CANCEL)){
+	}else if((Input_IsPressed(INPUT.MENU)||Input_IsPressed(INPUT.CANCEL))&&_can_cancel==true){
+		with(char_player){
+			_can_menu=false
+			alarm[1]=1
+		}
 		instance_destroy();
 	}
 }else if(_menu==1){
