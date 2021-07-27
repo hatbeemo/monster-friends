@@ -1,3 +1,5 @@
+//this variable will be useful later
+_wall_bump=false;
 var proc=0;
 repeat(4){
 	if(move[proc]>0){
@@ -22,6 +24,8 @@ repeat(4){
 					var inst=list[|procl];
 					if(instance_exists(inst)){
 						if(inst.block_enabled){
+							//quick Muris hack: store that a collision was made so that I can use it for the player run code
+							_wall_bump=true;
 							cmove=false;
 							break;
 						}

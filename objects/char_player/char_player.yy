@@ -1,13 +1,13 @@
 {
   "spriteId": {
-    "name": "spr_char_whimsie_d",
-    "path": "sprites/spr_char_whimsie_d/spr_char_whimsie_d.yy",
+    "name": "spr_char_bonnie_d",
+    "path": "sprites/spr_char_bonnie_d/spr_char_bonnie_d.yy",
   },
   "solid": false,
   "visible": true,
   "spriteMaskId": {
-    "name": "spr_char_mask",
-    "path": "sprites/spr_char_mask/spr_char_mask.yy",
+    "name": "spr_char_bonnie_mask",
+    "path": "sprites/spr_char_bonnie_mask/spr_char_bonnie_mask.yy",
   },
   "persistent": false,
   "parentObjectId": {
@@ -32,7 +32,6 @@
     {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":4,"eventType":7,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":0,"eventType":2,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-    {"isDnD":false,"eventNum":2,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":1,"eventType":2,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],

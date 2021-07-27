@@ -48,3 +48,5 @@ _move_previous=-1;
 
 _state=-1;
 _choice=0;
+
+_wall_bump=false;

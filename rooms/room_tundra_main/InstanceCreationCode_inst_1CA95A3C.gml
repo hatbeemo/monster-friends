@@ -1,0 +1,2 @@
+target_room=room_tundra_upper;
+target_landmark=1;

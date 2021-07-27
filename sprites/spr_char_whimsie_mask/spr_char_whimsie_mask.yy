@@ -60,7 +60,7 @@
     "eventStubScript": null,
     "parent": {"name":"spr_char_whimsie_mask","path":"sprites/spr_char_whimsie_mask/spr_char_whimsie_mask.yy",},
     "resourceVersion": "1.3",
-    "name": "",
+    "name": "spr_char_whimsie_mask",
     "tags": [],
     "resourceType": "GMSequence",
   },

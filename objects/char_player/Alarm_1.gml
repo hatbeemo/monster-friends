@@ -1,1 +1,1 @@
-_can_menu=true
+_can_menu=true;

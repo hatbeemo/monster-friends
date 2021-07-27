@@ -55,5 +55,72 @@ if(can_move){
 		}
 	}
 }
-
+//Check if we're moving and can run.
+if(move[DIR.UP]>0 || move[DIR.DOWN]>0 || move[DIR.LEFT]>0 || move[DIR.RIGHT]>0){
+	if(Input_IsHeld(INPUT.CANCEL)){
+		//This variable checks if a collision was made in the char parent.
+		if(_wall_bump){
+			//Player is bumping into a wall, slow 'em down!
+			_run_accel=0;
+			_run_timer=0;
+		    move_speed[DIR.UP]=2;
+		    move_speed[DIR.DOWN]=2;
+		    move_speed[DIR.LEFT]=2;
+		    move_speed[DIR.RIGHT]=2;
+		    res_move_speed[DIR.UP]=1/3;
+		    res_move_speed[DIR.DOWN]=1/3;
+		    res_move_speed[DIR.LEFT]=1/3;
+		    res_move_speed[DIR.RIGHT]=1/3;
+			//Make sure the player doesn't walk like a speed demon
+			image_speed=res_move_speed[dir];
+		}else{
+			_run_timer+=1;
+			//DELTARUNE runs at 30 FPS, while we're running 60 FPS, so the running speeds have to
+			//be half that of DR's. This means the running speeds must be decimals.
+			//Unfortunately it was jittery so I used the run timer here to turn it into
+			//an alternating speed cycle and smooth it out. No decimals needed, and looks a lot nicer.
+			_run_accel=(_run_timer%2?1:0);
+			if(_run_timer>=20){
+				_run_accel=1;
+			}
+			if(_run_timer>=120){
+				_run_accel=(_run_timer%2?2:1);
+			}
+		    move_speed[DIR.UP]=2+_run_accel;
+		    move_speed[DIR.DOWN]=2+_run_accel;
+		    move_speed[DIR.LEFT]=2+_run_accel;
+		    move_speed[DIR.RIGHT]=2+_run_accel;
+		    res_move_speed[DIR.UP]=1/2;
+		    res_move_speed[DIR.DOWN]=1/2;
+		    res_move_speed[DIR.LEFT]=1/2;
+		    res_move_speed[DIR.RIGHT]=1/2;
+			image_speed=res_move_speed[dir];
+		}
+	}else if(!Input_IsHeld(INPUT.CANCEL)){
+		//We're obviously not running.
+		_run_accel=0;
+		_run_timer=0;
+	    move_speed[DIR.UP]=2;
+	    move_speed[DIR.DOWN]=2;
+	    move_speed[DIR.LEFT]=2;
+	    move_speed[DIR.RIGHT]=2;
+	    res_move_speed[DIR.UP]=1/3;
+	    res_move_speed[DIR.DOWN]=1/3;
+	    res_move_speed[DIR.LEFT]=1/3;
+	    res_move_speed[DIR.RIGHT]=1/3;
+		image_speed=res_move_speed[dir];
+	}
+}else{
+	//Stopping in the middle of a run slows your next run.
+	_run_accel=0;
+	_run_timer=0;
+	move_speed[DIR.UP]=2;
+	move_speed[DIR.DOWN]=2;
+	move_speed[DIR.LEFT]=2;
+	move_speed[DIR.RIGHT]=2;
+	res_move_speed[DIR.UP]=1/3;
+	res_move_speed[DIR.DOWN]=1/3;
+	res_move_speed[DIR.LEFT]=1/3;
+	res_move_speed[DIR.RIGHT]=1/3;
+}
 event_inherited();
