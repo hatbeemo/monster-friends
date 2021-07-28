@@ -39,35 +39,60 @@ if(_menu==1){
 }
 
 if(_menu==3){
-	if(!instance_exists(_inst_stat_0)){
-		_inst_stat_0=instance_create_depth(188+6+22,52+6+26,0,text_typer);
-		var name=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.NAME);
-		var lv=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.LV);
-		var hp=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.HP);
-		var hp_max=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.HP_MAX);
-		var atk=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.ATK);
-		var atk_item=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.ATK_ITEM);
-		var def=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.DEF);
-		var def_item=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.DEF_ITEM);
-		var weapon=Item_GetName(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.ITEM_WEAPON));
-		var armor=Item_GetName(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.ITEM_ARMOR));
-		var gold=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.GOLD);
-		_inst_stat_0.text=_prefix+"{define `NAME` `"+name+"`}{define `LV` "+string(lv)+"}{define `HP` "+string(hp)+"}{define `HP_MAX` "+string(hp_max)+"}{define `ATK` "+string(atk)+"}{define `ATK_ITEM` "+string(atk_item)+"}{define `DEF` "+string(def)+"}{define `DEF_ITEM` "+string(def_item)+"}{define `WEAPON` `"+weapon+"`}{define `ARMOR` `"+armor+"`}{define `GOLD` "+string(gold)+"}"+Lang_GetString("ui.menu.stat.0");
+	if(!instance_exists(_inst_list_0)){
+		_inst_list_0=instance_create_depth(188+6+22,52+6+26,0,text_typer);
+		if(_list_finished==1){
+			_inst_list_0.text=_prefix+"{color_text `yellow`}TO-DO LIST (ROOM COMPLETE!)&{color_text `gray_light`}"+Player_GetRoomName(room);
+		}else if(_list_finished==2){
+			_inst_list_0.text=_prefix+"{color_text `yellow`}TO-DO LIST (FULLY COMPLETE!)&{color_text `gray_light`}"+Player_GetRoomName(room);
+		}else{
+			_inst_list_0.text=_prefix+"TO-DO LIST&{color_text `gray_light`}"+Player_GetRoomName(room);
+		}
 	}
-	if(!instance_exists(_inst_stat_1)){
-		_inst_stat_1=instance_create_depth(188+6+190,52+6+182,0,text_typer);
-		var xp=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.EXP);
-		var lv=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.LV);
-		var lv_xp=Player_GetLvExp(lv+1);
-		var kills=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.KILLS);
-		_inst_stat_1.text=_prefix+"{define `EXP` "+string(xp)+"}{define `EXP_NEXT` "+(lv_xp!=-1 ? string(lv_xp-xp) : "`N/A`")+"}"+Lang_GetString("ui.menu.stat.1")+(kills>0 ? "{define `KILLS` "+string(kills)+"}"+Lang_GetString("ui.menu.stat.2") : "");
+	if(!instance_exists(_inst_list_1)){
+		var objs = 0
+		var npcs = 0
+		for(var i=real(room)*100;i<instance_number(char_interact)+real(room)*100;i++){
+			objs += ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_LIST,0),i)
+		}
+		for(var i=real(room)*100;i<instance_number(char_npc)+real(room)*100;i++){
+			npcs += ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_LIST,0),i)
+		}
+		_inst_list_1=instance_create_depth(188+6+22,52+6+126,0,text_typer);
+		var color = "{color_text `gray`}"
+		var color2 = "{color_text `gray_dark`}"
+		if(npcs>=1){
+			color = "{color_text `white`}"
+			color2 = "{color_text `gray_light`}"
+		}
+		if(npcs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0)){
+			color = "{color_text `yellow`}"
+			color2 = "{color_text `yellow`}"
+		}
+		_inst_list_1.text=_prefix+color+"Talk with the locals&"+color2+"("+string(npcs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0))+")&";
+		color = "{color_text `gray`}"
+		color2 = "{color_text `gray_dark`}"
+		if(objs>=1){
+			color = "{color_text `white`}"
+			color2 = "{color_text `gray_light`}"
+		}
+		if(objs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0)){
+			color = "{color_text `yellow`}"
+			color2 = "{color_text `yellow`}"
+		}
+		_inst_list_1.text+=color+"Inspect every object&"+color2+"("+string(objs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0))+")&";
+		color = "{color_text `gray`}"
+		color2 = "{color_text `gray_dark`}"
+		_inst_list_1.text+=color+"Chat with your friends&"+color2+"(0/2)&&";
+		color = "{color_text `white`}"
+		_inst_list_1.text+=color+"TOTAL PROGRESS: 0%";
 	}
 }else{
-	if(instance_exists(_inst_stat_0)){
-		instance_destroy(_inst_stat_0);
+	if(instance_exists(_inst_list_0)){
+		instance_destroy(_inst_list_0);
 	}
-	if(instance_exists(_inst_stat_1)){
-		instance_destroy(_inst_stat_1);
+	if(instance_exists(_inst_list_1)){
+		instance_destroy(_inst_list_1);
 	}
 }
 

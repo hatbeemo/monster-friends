@@ -1,6 +1,6 @@
 x+=sin(_divot_timer/12)*0.1;
 _divot_timer+=1;
-if (room==room_tundra_upper){
+if (room==room_sn_north){
 	if(y>room_height){
 		y = -10	
 	}

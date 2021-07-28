@@ -1,0 +1,2 @@
+target_room=room_sn_dark_happy;
+target_landmark=1;

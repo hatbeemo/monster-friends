@@ -1,10 +1,13 @@
 event_inherited();
 char_upcam.x = char_player.x
-if(!_triggered&&char_player.moveable){
-	_timer += 1
-	if(_timer>=30){
-		Anim_Destroy(char_upcam,"y")
-		char_upcam.y = 320
-		camera.target=char_player;
-	}
+_timer += 1
+if(_timer>=60){
+	camera_set_view_speed(view_camera[0],-1,-1);
+	_timer=60;
+}else{
+	if(char_player._run_timer>=1){
+		camera_set_view_speed(view_camera[0],5,5);
+	}else{
+		camera_set_view_speed(view_camera[0],3,3);
+	}	
 }

@@ -5,8 +5,8 @@ function Lang_LoadString() {
 	ds_map_add(MAP,"ui.menu.item.use","USE");
 	ds_map_add(MAP,"ui.menu.item.info","INFO");
 	ds_map_add(MAP,"ui.menu.item.drop","DROP");
-	ds_map_add(MAP,"ui.menu.stat","STAT");
-	ds_map_add(MAP,"ui.menu.phone","CELL");
+	ds_map_add(MAP,"ui.menu.list","LIST");
+	ds_map_add(MAP,"ui.menu.phone","CALL");
 	
 	ds_map_add(MAP,"font.dialog.0","determination_mono")
 	ds_map_add(MAP,"font.dialog.0.scale.x","1")

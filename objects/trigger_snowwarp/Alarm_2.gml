@@ -3,10 +3,10 @@ char_player.moveable=false;
 camera.target=noone;
 fader.color=c_black
 Fader_Fade(-1,0,20);
-if(room==room_tundra_upper){
+if(room==room_sn_north){
 	camera.y=200;
 	Anim_Create(camera,"x",ANIM_TWEEN.SINE,ANIM_EASE.OUT,650,-600,90);
-}else if(room==room_tundra_main){
+}else if(room==room_sn_main){
 	camera.y=180;
 	Anim_Create(camera,"x",ANIM_TWEEN.SINE,ANIM_EASE.OUT,960,565,90);
 }

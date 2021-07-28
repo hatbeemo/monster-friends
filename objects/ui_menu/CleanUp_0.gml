@@ -16,11 +16,11 @@ if(instance_exists(_inst_item_info)){
 if(instance_exists(_inst_item_drop)){
 	instance_destroy(_inst_item_drop);
 }
-if(instance_exists(_inst_stat_0)){
-	instance_destroy(_inst_stat_0);
+if(instance_exists(_inst_list_0)){
+	instance_destroy(_inst_list_0);
 }
-if(instance_exists(_inst_stat_1)){
-	instance_destroy(_inst_stat_1);
+if(instance_exists(_inst_list_1)){
+	instance_destroy(_inst_list_1);
 }
 if(instance_exists(_inst_phone)){
 	instance_destroy(_inst_phone);

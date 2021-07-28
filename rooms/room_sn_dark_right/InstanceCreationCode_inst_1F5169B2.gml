@@ -1,0 +1,1 @@
+text="* This area isn't finished&  yet so no fun is allowed.{sleep 20}&* -The NPC Who Blocks The Way";

@@ -16,7 +16,7 @@ if(_menu==-1){
 			audio_play_sound(snd_menu_switch,0,false);
 		}
 	}else if(Input_IsPressed(INPUT.DOWN)){
-		if(_choice<(Phone_GetNumber()>0 ? 2 : 1)){
+		if(_choice<2){
 			_choice+=1;
 			audio_play_sound(snd_menu_switch,0,false);
 		}
@@ -30,12 +30,12 @@ if(_menu==-1){
 				}
 				break;
 			case 1:
-				_menu=3;
+				_menu=4;
 				event_user(0);
 				audio_play_sound(snd_menu_confirm,0,false);
 				break;
 			case 2:
-				_menu=4;
+				_menu=3;
 				event_user(0);
 				audio_play_sound(snd_menu_confirm,0,false);
 				break;

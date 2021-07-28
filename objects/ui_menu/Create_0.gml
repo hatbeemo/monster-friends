@@ -20,16 +20,31 @@ _inst_item=noone;
 _inst_item_use=noone;
 _inst_item_info=noone;
 _inst_item_drop=noone;
-_inst_stat_0=noone;
-_inst_stat_1=noone;
+_inst_list_0=noone;
+_inst_list_1=noone;
 _inst_phone=noone;
 
-_inst_name=instance_create_depth(32+6+8,52+6+(_top ? 270 : 0)+2,0,text_typer);
+_inst_name=instance_create_depth(32+6+8,72+6+(_top ? 250 : 0)+2,0,text_typer);
 _inst_name.text=_prefix+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.NAME);
 
+var objs=0;
+var npcs=0;
+for(var i=real(room)*100;i<instance_number(char_interact)+real(room)*100;i++){
+	objs+=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_LIST,0),i);
+}
+for(var i=real(room)*100;i<instance_number(char_npc)+real(room)*100;i++){
+	npcs+=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_LIST,0),i);
+}
+var color="{color_text `white`}";
+_list_finished=0;
+if(npcs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0)&&objs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0)){
+	color="{color_text `yellow`}";
+	_list_finished=1;
+}
 _inst_menu=instance_create_depth(32+6+46,168+6+14,0,text_typer);
-_inst_menu.text=_prefix+"{space_y 2}"+(Item_GetNumber()<=0 ? "{color_text `gray`}" : "")+Lang_GetString("ui.menu.item")+(Item_GetNumber()<=0 ? "{color_text `white`}" : "")+"&"+Lang_GetString("ui.menu.stat")+(Phone_GetNumber()>0 ? "&"+Lang_GetString("ui.menu.phone") : "");
+_inst_menu.text=_prefix+"{space_y 2}"+(Item_GetNumber()<=0 ? "{color_text `gray`}" : "")+Lang_GetString("ui.menu.item")+(Item_GetNumber()<=0 ? "{color_text `white`}" : "")+"&"+Lang_GetString("ui.menu.phone")+"&"+color+Lang_GetString("ui.menu.list");
 
 audio_play_sound(snd_menu_switch,0,false);
 _can_cancel=false
 alarm[0]=1
+world.alarm[0] = 1

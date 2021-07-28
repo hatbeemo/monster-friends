@@ -2,10 +2,13 @@
 // You can write your code in this editor
 
 // Inherit the parent event
-if(_triggered)
-{
-	_camera_ideal_y=char_player.y;
+if(_triggered){
+	if(char_player._run_timer>=1){
+		camera_set_view_speed(view_camera[0],5,5);
+	}else{
+		camera_set_view_speed(view_camera[0],3,3);
+	}
+	camera.target=char_player;
 	_timer=0;
-	Anim_Create(char_upcam,"y",ANIM_TWEEN.LINEAR,ANIM_EASE.IN,char_upcam.y,_camera_ideal_y-char_upcam.y,30);
 	_triggered=false;
 }
