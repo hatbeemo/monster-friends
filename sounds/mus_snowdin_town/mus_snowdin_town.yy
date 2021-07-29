@@ -10,8 +10,8 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "mus_snowdin_town.ogg",
-  "duration": 75.63094,
+  "soundFile": "mus_snowdin_town.mp3",
+  "duration": 136.0507,
   "parent": {
     "name": "BGM",
     "path": "folders/Sounds/BGM.yy",

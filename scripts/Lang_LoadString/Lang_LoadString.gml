@@ -37,7 +37,16 @@ function Lang_LoadString() {
 	ds_map_add(MAP,"font.battle.1.scale.y","1")
 	ds_map_add(MAP,"font.battle.1.space.x","0")
 	ds_map_add(MAP,"font.battle.space.y","0")
+	
+	ds_map_add(MAP,"font.fourlinedialog.0","determination_mono")
+	ds_map_add(MAP,"font.fourlinedialog.0.scale.x","1")
+	ds_map_add(MAP,"font.fourlinedialog.0.scale.y","1")
+	ds_map_add(MAP,"font.fourlinedialog.0.space.x","0")
+	ds_map_add(MAP,"font.fourlinedialog.1","determination_mono")
+	ds_map_add(MAP,"font.fourlinedialog.1.scale.x","1")
+	ds_map_add(MAP,"font.fourlinedialog.1.scale.y","1")
+	ds_map_add(MAP,"font.fourlinedialog.1.space.x","0")
+	ds_map_add(MAP,"font.fourlinedialog.space.y","-4")
+
 	return true;
-
-
 }

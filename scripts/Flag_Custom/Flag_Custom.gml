@@ -34,11 +34,11 @@ function Flag_Custom() {
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0);
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_GLOBAL,0);
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_GLOBAL_MAX,0);
-	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0);
+	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,ds_list_create());
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_GLOBAL,0);
 	Item_SetWeapon(item_stick);
 	Item_SetArmor(item_bandage);
 	Item_Add(item_tml);
-
-
+	Phone_Add(phone_happy);
+	Phone_Add(phone_mikey);
 }

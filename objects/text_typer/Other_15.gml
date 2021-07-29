@@ -45,11 +45,22 @@ _group_font_scale_y[2,1]=real(Lang_GetString("font.battle.1.scale.y"));
 _group_font_space_x[2,1]=real(Lang_GetString("font.battle.1.space.x"));
 _group_font_space_y[2]=real(Lang_GetString("font.battle.space.y"));
 
+_group_font[3,0]=Lang_GetFont(Lang_GetString("font.fourlinedialog.0"));
+_group_font_scale_x[3,0]=real(Lang_GetString("font.fourlinedialog.0.scale.x"));
+_group_font_scale_y[3,0]=real(Lang_GetString("font.fourlinedialog.0.scale.y"));
+_group_font_space_x[3,0]=real(Lang_GetString("font.fourlinedialog.0.space.x"));
+_group_font[3,1]=Lang_GetFont(Lang_GetString("font.fourlinedialog.1"));
+_group_font_scale_x[3,1]=real(Lang_GetString("font.fourlinedialog.1.scale.x"));
+_group_font_scale_y[3,1]=real(Lang_GetString("font.fourlinedialog.1.scale.y"));
+_group_font_space_x[3,1]=real(Lang_GetString("font.fourlinedialog.1.space.x"));
+_group_font_space_y[3]=real(Lang_GetString("font.fourlinedialog.space.y"));
+
 _group_voice[0,0]=snd_text_voice_default;
 _group_voice[1,0]=snd_text_voice_typer;
 
 _group_voice[2,0]=snd_text_voice_mopsy;
 _group_voice[3,0]=snd_text_voice_whimsie;
+_group_voice[4,0]=snd_text_voice_bonnie;
 
 _group_face[0]=face;
 
@@ -59,3 +70,5 @@ _group_face[2]=face_mopsy_happy;
 _group_face[10]=face_whimsie_normal;
 _group_face[11]=face_whimsie_focus;
 _group_face[12]=face_whimsie_shock;
+
+_group_face[20]=face_bonnie;

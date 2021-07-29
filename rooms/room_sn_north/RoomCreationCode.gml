@@ -1,0 +1,1 @@
+BGM_SetVolume(0,1,20);

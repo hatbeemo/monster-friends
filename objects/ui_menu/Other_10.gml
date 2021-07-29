@@ -44,7 +44,7 @@ if(_menu==3){
 		if(_list_finished==1){
 			_inst_list_0.text=_prefix+"{color_text `yellow`}TO-DO LIST (ROOM COMPLETE!)&{color_text `gray_light`}"+Player_GetRoomName(room);
 		}else if(_list_finished==2){
-			_inst_list_0.text=_prefix+"{color_text `yellow`}TO-DO LIST (FULLY COMPLETE!)&{color_text `gray_light`}"+Player_GetRoomName(room);
+			_inst_list_0.text=_prefix+"{color_text `yellow`}TO-DO LIST (ALL COMPLETE!)&{color_text `gray_light`}"+Player_GetRoomName(room);
 		}else{
 			_inst_list_0.text=_prefix+"TO-DO LIST&{color_text `gray_light`}"+Player_GetRoomName(room);
 		}
@@ -81,9 +81,19 @@ if(_menu==3){
 			color2 = "{color_text `yellow`}"
 		}
 		_inst_list_1.text+=color+"Inspect every object&"+color2+"("+string(objs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0))+")&";
+		var calls=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2);
+		calls+=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2+1);
 		color = "{color_text `gray`}"
 		color2 = "{color_text `gray_dark`}"
-		_inst_list_1.text+=color+"Chat with your friends&"+color2+"(0/2)&&";
+		if(calls>=1){
+			color = "{color_text `white`}"
+			color2 = "{color_text `gray_light`}"
+		}
+		if(calls>=2){
+			color = "{color_text `yellow`}"
+			color2 = "{color_text `yellow`}"
+		}
+		_inst_list_1.text+=color+"Chat with your friends&"+color2+"("+string(calls)+"/2)&&";
 		color = "{color_text `white`}"
 		_inst_list_1.text+=color+"TOTAL PROGRESS: 0%";
 	}

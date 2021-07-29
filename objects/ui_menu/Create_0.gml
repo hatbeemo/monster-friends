@@ -35,14 +35,16 @@ for(var i=real(room)*100;i<instance_number(char_interact)+real(room)*100;i++){
 for(var i=real(room)*100;i<instance_number(char_npc)+real(room)*100;i++){
 	npcs+=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_LIST,0),i);
 }
+var calls=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2);
+		calls+=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2+1);
 var color="{color_text `white`}";
 _list_finished=0;
-if(npcs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0)&&objs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0)){
+if(npcs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0)&&objs>=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0)&&calls>=2){
 	color="{color_text `yellow`}";
 	_list_finished=1;
 }
 _inst_menu=instance_create_depth(32+6+46,168+6+14,0,text_typer);
-_inst_menu.text=_prefix+"{space_y 2}"+(Item_GetNumber()<=0 ? "{color_text `gray`}" : "")+Lang_GetString("ui.menu.item")+(Item_GetNumber()<=0 ? "{color_text `white`}" : "")+"&"+Lang_GetString("ui.menu.phone")+"&"+color+Lang_GetString("ui.menu.list");
+_inst_menu.text=_prefix+"{space_y 2}"+Lang_GetString("ui.menu.phone")+"&"+color+Lang_GetString("ui.menu.list");
 
 audio_play_sound(snd_menu_switch,0,false);
 _can_cancel=false

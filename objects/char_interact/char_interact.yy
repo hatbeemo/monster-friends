@@ -4,7 +4,7 @@
     "path": "sprites/spr_trigger/spr_trigger.yy",
   },
   "solid": false,
-  "visible": true,
+  "visible": false,
   "spriteMaskId": {
     "name": "spr_char_mask",
     "path": "sprites/spr_char_mask/spr_char_mask.yy",
@@ -29,7 +29,6 @@
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":10,"eventType":7,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-    {"isDnD":false,"eventNum":2,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],

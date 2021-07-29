@@ -12,8 +12,11 @@ if(_char!=" "&&_char!="　"){
 	var H1=string_height(" ");
 	draw_set_font(_group_font[_font,font]);
 	var H2=string_height(" ");
-	var OFFSET=(H1-H2)/2*_scale_y;
-	
+	if(_font==3){
+		var OFFSET=(H1-H2+_group_font_space_y[3])/2*_scale_y;
+	}else{
+		var OFFSET=(H1-H2)/2*_scale_y;
+	}
 	var INST=instance_create_depth(x+_char_x,y+_char_y+OFFSET,depth,text_single);
 	INST.text=_char;
 	INST.font=_group_font[_font,font];

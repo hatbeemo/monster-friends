@@ -391,6 +391,12 @@ switch(cmd[|0]){
 		}
 		break;
 		
+	case "face_talking":
+		if(is_real(cmd[|1])){
+			_face_talking=cmd[|1];
+		}
+		break;
+		
 	case "face_unlink":
 		_face_linked=-1;
 		break;

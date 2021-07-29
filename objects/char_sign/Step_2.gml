@@ -1,2 +1,4 @@
 event_inherited();
-depth=200-y;
+if(y+10 >= char_player.y){
+	depth=-2501
+}

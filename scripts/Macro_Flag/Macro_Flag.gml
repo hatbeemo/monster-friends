@@ -68,6 +68,7 @@ function Macro_Flag() {
 		INTERACTS_NPC_GLOBAL_MAX,
 		CALLS_LOCAL_LIST,
 		CALLS_GLOBAL,
+		CALLS_GLOBAL_MAX,
 	};
 #endregion
 

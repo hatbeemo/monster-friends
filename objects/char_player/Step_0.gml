@@ -27,16 +27,16 @@ if(can_move){
 		//If the Z key is pressed (not held), create a local variable "inst", set to "noone". 
 		//Local variables will be forgotten at the end of this event.
 		if(dir==DIR.UP){
-			inst=collision_rectangle(x-sprite_width/2+4,y-5,x+sprite_width/2-4,y-sprite_height+5,char,false,true);
+			inst=collision_rectangle(x-sprite_width/2+4,y-15,x+sprite_width/2-4,y-sprite_height+5,char,false,true);
 		}
 		if(dir==DIR.DOWN){
-			inst=collision_rectangle(x-sprite_width/2+4,y-sprite_height+20,x+sprite_width/2-4,y+15,char,false,true);
+			inst=collision_rectangle(x-sprite_width/2+4,y-15,x+sprite_width/2-4,y+15,char,false,true);
 		}
 		if(dir==DIR.LEFT){
-			inst=collision_rectangle(x,y-sprite_height+19,x+sprite_width/2-15,y,char,false,true);
+			inst=collision_rectangle(x,y-sprite_height+37,x-sprite_width/2-15,y,char,false,true);
 		}
 		if(dir==DIR.RIGHT){
-			inst=collision_rectangle(x,y-sprite_height+19,x+sprite_width/2+15,y,char,false,true);
+			inst=collision_rectangle(x,y-sprite_height+37,x+sprite_width/2+15,y,char,false,true);
 		//"collision rectangle" checks to see whether any instance of a given object...
 		//...collides with a user defined rectangular area.
 		//Maybe this is how Frisk collides with walls?

@@ -15,3 +15,11 @@ for(var i=real(room)*100;i<instance_number(char_npc)+real(room)*100;i++){
 		ds_list_set(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_LIST,0),i,0)
 	}
 }
+if ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2) != 1
+{
+	ds_list_set(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2,0)
+}
+if ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2+1) != 1
+{
+	ds_list_set(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2+1,0)
+}
