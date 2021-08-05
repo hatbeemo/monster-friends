@@ -59,20 +59,22 @@ _menu_choice_skill[0]=0;
 _menu_choice_skill_power[0]=0;
 _menu_choice_item[0]=0;
 _menu_choice_item_first[0]=0;
+_menu_choice_check_description[0]=0;
 _menu_choice_button[1]=0;
 _menu_choice_enemy[1]=0;
 _menu_choice_skill[1]=0;
 _menu_choice_skill_power[1]=0;
 _menu_choice_item[1]=0;
 _menu_choice_item_first[1]=0;
+_menu_choice_check_description[1]=0;
 _menu_dialog=Encounter_GetMenuDialog(ENCOUNTER);
 
 _menu_fight_damage=0;
 _menu_fight_anim_time=0;
 _menu_fight_damage_time=0;
 
-_menu_item_used_last=-1;
-
+_menu_item_used_last[0]=-1;
+_menu_item_used_last[1]=-1;
 _turn_number=0;
 _turn_info=ds_map_create();
 

@@ -16,6 +16,9 @@ if(animating==2){
 }
 if(done>=2){
 	explode_timer-=0.1
+	if(explode_timer<0&&done==4){
+		instance_destroy()
+	}
 	explode_grow+=0.05
 	if(type=="DMG"){
 		draw_sprite_ext(spr_battle_skill_bomb_explode,0,x,y,explode_grow,explode_grow,0,RED_COLOR,clamp(explode_timer,0,1))

@@ -25,6 +25,7 @@ function Macro_Battle() {
 		CHECK_TARGET,
 		CHECK_DESCRIPTION,
 		BAG,
+		BAG_EVENT,
 		DEFEND
 	};
 
@@ -136,6 +137,7 @@ function Macro_Battle() {
 	#macro MAROON_COLOR make_color_rgb(113,20,20)
 	#macro LIME_COLOR make_color_rgb(76,255,0)
 	#macro DKAQUA_COLOR make_color_rgb(00,179,231)
+	#macro DEEPAQUA_COLOR make_color_rgb(00,104,128)
 	#macro AQUA_COLOR make_color_rgb(0,179,231)
 	#macro LTAQUA_COLOR make_color_rgb(20,251,251)
 	#macro DULLAQUA_COLOR make_color_rgb(0,155,190)

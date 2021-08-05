@@ -81,7 +81,7 @@ function Battle_SetMenu() {
 			if(Battle_GetMenuChoiceEnemy()>=2){
 				Battle_SetMenuChoiceEnemy(0,false);
 			}
-			repeat(2){
+			repeat(battle_ui.party_size){
 				//Create enemy's hp bar
 				if(MENU==BATTLE_MENU.SKILL_TARGET){
 					var inst=instance_create_depth(0,0,0,battle_menu_fight_hp_bar);
@@ -92,7 +92,7 @@ function Battle_SetMenu() {
 					inst.width=76;
 					inst.color=battle_ui.default_party_color[proc];
 				}
-				if(enemy_ailments!=-1){
+				if(!ds_list_empty(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0))){
 					var inst=instance_create_depth(0,0,0,battle_menu_fight_ailments);
 					inst.player_mode=1;
 					inst.enemy_slot=_enemy_slot;
@@ -109,8 +109,8 @@ function Battle_SetMenu() {
 		battle_ui.use_ap=0;
 		Battle_SetHintDialog("",true);
 	}
-
-	if(MENU==BATTLE_MENU.SKILL_EVENT){
+	
+	if(MENU==BATTLE_MENU.SKILL_EVENT||MENU==BATTLE_MENU.BAG_EVENT){
 		with(battle_ui)
 		{
 			menu_close=menu_open;
@@ -128,16 +128,33 @@ function Battle_SetMenu() {
 				instance_destroy();
 			}
 		}
+		if(instance_exists(item)){
+			with(item){
+				instance_destroy();
+			}
+		}
 		Anim_Destroy(battle_ui,"incoming_y")
 		Anim_Destroy(battle_ui,"incoming_y2")
 		Battle_SetMenuFightAnimTime(0);
 		Battle_SetMenuFightDamageTime(0);
-	
-		var OBJ=ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[battle.battle_turn_order[battle.turn_progress]]),Battle_GetMenuChoiceAction());
-		if(object_exists(OBJ)){
-			if(OBJ==battle_menu_skill||Object_GetBaseParent(OBJ)==battle_menu_skill){
-				instance_create_depth(0,0,0,OBJ);
+		if(MENU==BATTLE_MENU.SKILL_EVENT){
+			var OBJ=ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[battle.battle_turn_order[battle.turn_progress]]),Battle_GetMenuChoiceAction());
+			if(object_exists(OBJ)){
+				if(OBJ==battle_menu_skill||Object_GetBaseParent(OBJ)==battle_menu_skill){
+					var inst=instance_create_depth(0,0,0,OBJ);
+					if(battle_ui.party_type[battle.battle_turn_order[battle.turn_progress]]==3){
+						inst.target=battle.battle_turn_order[battle.turn_progress]
+					}
+				}
 			}
+		}else if(MENU==BATTLE_MENU.BAG_EVENT){
+			battle._menu_item_used_last[battle.battle_turn_order[battle.turn_progress]]=Item_Get(Battle_GetMenuChoiceItem());
+			var OBJ=Item_Get(Battle_GetMenuChoiceItem())
+			if(object_exists(OBJ)){
+				if(OBJ==item||Object_GetBaseParent(OBJ)==item){
+					var inst=instance_create_depth(0,0,0,OBJ);
+				}
+			}	
 		}
 	}
 	////////////////////////////////////////
@@ -202,17 +219,56 @@ function Battle_SetMenu() {
 	//物品
 	if(MENU==BATTLE_MENU.BAG){
 		Battle_SetMenuChoiceItem(0,false);
-		instance_create_depth(0,0,0,battle_menu_item_scrollbar);
 	}
 
 	//仁慈
 	if(MENU==BATTLE_MENU.DEFEND){
-
-	}
+		with(battle_ui)
+		{
+			menu_close=menu_open;
+			menu_open=-1;
+			menu_opened=false;
+			menu_closed=false;
+		}
+		if(instance_exists(battle_attack)){
+			with(battle_attack){
+				event_user(BATTLE_TURN_EVENT.TURN_END);
+			}
+		}
+		if(instance_exists(battle_menu_skill)){
+			with(battle_menu_skill){
+				instance_destroy();
+			}
+		}
+		if(instance_exists(item)){
+			with(item){
+				instance_destroy();
+			}
+		}
+		Anim_Destroy(battle_ui,"incoming_y")
+		Anim_Destroy(battle_ui,"incoming_y2")
+		Battle_SetMenuFightAnimTime(0);
+		Battle_SetMenuFightDamageTime(0);
 	
+		var inst=instance_create_depth(0,0,0,battle_menu_skill_defend);
+		inst.target=battle.battle_turn_order[battle.turn_progress]
+		with(inst){
+			event_user(BATTLE_MENU_FIGHT_EVENT.ANIM);
+		}
+	}
 	////////////////////////////////////////
 	if(CALL){
 		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.MENU_SWITCH);
+	}
+
+	if(MENU==BATTLE_MENU.BAG_EVENT){
+		if(instance_exists(item)){
+			with(item){
+				_item_slot=Battle_GetMenuChoiceItem();
+				user=battle.battle_turn_order[battle.turn_progress];
+				event_user(ITEM_EVENT.USE);
+			}
+		}
 	}
 
 	if(MENU==BATTLE_MENU.SKILL_EVENT){
@@ -229,6 +285,17 @@ function Battle_SetMenu() {
 				event_user(BATTLE_MENU_FIGHT_EVENT.DAMAGE);
 			}
 		}
+	}
+
+	if(MENU==BATTLE_MENU.CHECK_DESCRIPTION){
+		if(!instance_exists(battle_menu_enemy_statscrollbar)){
+			instance_create_depth(0,0,0,battle_menu_enemy_statscrollbar)
+		}
+		var text=""
+		with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy()))){
+			text = check_desc[Battle_GetMenuChoiceCheckDesc()]
+		}
+		Battle_SetDialog("{instant true}"+text);
 	}
 
 	return true;

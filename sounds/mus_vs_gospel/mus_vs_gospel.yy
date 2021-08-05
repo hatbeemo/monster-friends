@@ -10,8 +10,8 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "mus_vs_gospel.ogg",
-  "duration": 81.08609,
+  "soundFile": "mus_vs_gospel.mp3",
+  "duration": 82.05558,
   "parent": {
     "name": "BGM",
     "path": "folders/Sounds/BGM.yy",

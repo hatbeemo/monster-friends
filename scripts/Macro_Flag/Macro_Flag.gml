@@ -98,7 +98,9 @@ function Macro_Flag() {
 		ENEMY_AP_MAX,
 		ENEMY_SP_MAX,
 		ENEMY_AP,
-		ENEMY_SP
+		ENEMY_SP,
+		PARTY_BLOCK,
+		PARTY_BLOCK_END=FLAG_TEMP.PARTY_BLOCK+4-1,
 	};
 #endregion
 

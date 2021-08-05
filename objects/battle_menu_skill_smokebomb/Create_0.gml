@@ -1,5 +1,5 @@
-ap_cost=0;
-fuse=1;
+ap_cost=1;
+fuse=2;
 use_name="{color_text `whimsie`}Smoke Bomb"
 name="Smoke Bomb[{color_text `specaqua`}1{color_text `white`}]"
 info="Whimsie throws a bomb that will&give {color_text `specaqua`}"+string(fuse*2)+" BLOCK{color_text `white`} upon detonation.&The bomb will have a Fuse of "+string(fuse)+"."

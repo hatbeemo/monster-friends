@@ -94,14 +94,19 @@ repeat(party_size){
 	draw_sprite_ext(spr_battle_ui_name,party_name[i],x+party_x[i]+51,y+add+14+swap_y[i]+menu_y[i],1,1,0,name_color[i],1);
 	draw_sprite_ext(spr_battle_menu_hpicon,party_name[i],x+party_x[i]+135,y+add+23+swap_y[i]+menu_y[i],1,1,0,hp_color[i],1);
 	draw_sprite_ext(spr_battle_menu_hpslash,party_name[i],x+party_x[i]+186,y+add+10+swap_y[i]+menu_y[i],1,1,0,hp_color[i],1);
-	//draw_sprite_ext(spr_pixel,0,x+party_x[i]+152,y+add+21+swap_y[i]+menu_y[i],78,13,0,AQUA_COLOR,1);
-	//draw_sprite_ext(spr_pixel,0,x+party_x[i]+151,y+add+22+swap_y[i]+menu_y[i],80,11,0,AQUA_COLOR,1);
+	if(Battle_GetPartyBlock(party_member[i])>0){
+		draw_sprite_ext(spr_pixel,0,x+party_x[i]+152,y+add+21+swap_y[i]+menu_y[i],78,13,0,c_white,1);
+		draw_sprite_ext(spr_pixel,0,x+party_x[i]+151,y+add+22+swap_y[i]+menu_y[i],80,11,0,c_white,1);
+	}
 	draw_sprite_ext(spr_pixel,0,x+party_x[i]+153,y+add+23+swap_y[i]+menu_y[i],76,9,0,MAROON_COLOR,1);
-	draw_sprite_ext(spr_pixel,0,x+party_x[i]+153,y+add+23+swap_y[i]+menu_y[i],76/Player_GetPartyHpMax(party_member[i])*Player_GetPartyHp(party_member[i]),9,0,party_color[i],1);
+	if(Battle_GetPartyBlock(party_member[i])>0){
+		draw_sprite_ext(spr_pixel,0,x+party_x[i]+153,y+add+23+swap_y[i]+menu_y[i],clamp((Player_GetPartyHp(party_member[i])+Battle_GetPartyBlock(party_member[i]))/Player_GetPartyHpMax(party_member[i])*76,0,76),9,0,DEEPAQUA_COLOR,1);
+	}
+	draw_sprite_ext(spr_pixel,0,x+party_x[i]+153,y+add+23+swap_y[i]+menu_y[i],Player_GetPartyHp(party_member[i])/Player_GetPartyHpMax(party_member[i])*76,9,0,party_color[i],1);
 	draw_set_font(global.HP_FONT);
 	draw_set_color(hp_color[i])
 	draw_set_halign(fa_right);
-	draw_text(x+party_x[i]+182,y+add+10+swap_y[i]+menu_y[i],string(Player_GetPartyHp(party_member[i])));
+	draw_text(x+party_x[i]+182,y+add+10+swap_y[i]+menu_y[i],string(Player_GetPartyHp(party_member[i])+Battle_GetPartyBlock(party_member[i])));
 	draw_text(x+party_x[i]+227,y+add+10+swap_y[i]+menu_y[i],string(Player_GetPartyHpMax(party_member[i])));
 	draw_set_color(c_white)
 	i += 1

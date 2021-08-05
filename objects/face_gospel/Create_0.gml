@@ -35,6 +35,6 @@ for(i=0;i<array_length(idle_sprite);i++)
 	idle_image[i]=0;
 	talk_image[i]=1;
 	idle_speed[i]=0;
-	talk_speed[i]=1/2;
+	talk_speed[i]=1/4;
 }
 face_id=3;

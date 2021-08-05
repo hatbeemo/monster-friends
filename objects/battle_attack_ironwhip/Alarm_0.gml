@@ -32,7 +32,11 @@ Player_EarnDamageSp(damage+powerboost);
 Camera_Shake(3,3,2,2);
 ds_list_add(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+target,0),1)
 ds_list_add(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+target,0),1)
-text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" took {color_text `specred`}"+string(damage+powerboost+vulndamage)+"{color_text `white`} damage!&"
+if(Battle_GetPartyBlock(target)>0){
+	text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" blocked the damage!&"
+}else{
+	text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" took {color_text `specred`}"+string(damage+powerboost+vulndamage)+"{color_text `white`} damage!&"
+}
 text += "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" gained {color_text `specred`}1 Vulnerable{color_text `white`}!{pause}{end}"
 if(Player_GetPartyHp(target)<=0){
 	text="* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" was unable to continue&  fighting!{pause}{end}"

@@ -1,4 +1,5 @@
 function Battle_NextMember() {
+	battle_ui.use_ap=0;
 	if(battle_ui.party_size==1||Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)>=1||Player_GetPartyHp(battle_ui.party_member[1])<=0){
 		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,battle.turn_progress)
 		if(battle.battle_turn_order[battle.turn_progress]>=2){

@@ -1,0 +1,3 @@
+depth=DEPTH_BATTLE.UI_HIGH;
+x=620;
+y=400;

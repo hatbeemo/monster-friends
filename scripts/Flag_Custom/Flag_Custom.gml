@@ -96,7 +96,9 @@ function Flag_Custom() {
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.GOSPEL_PASSIVE_BOOST,0);
 	Item_SetWeapon(item_stick);
 	Item_SetArmor(item_bandage);
-	Item_Add(item_tml);
+	Item_Add(item_chocomilk);
+	Item_Add(item_spiderdonut);
+	Item_Add(item_spidercider);
 	Phone_Add(phone_happy);
 	Phone_Add(phone_mikey);
 }

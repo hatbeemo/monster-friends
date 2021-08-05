@@ -168,8 +168,8 @@ function Battle_SetState() {
 	if(STATE==BATTLE_STATE.AILMENT_EFFECTS_AFTER){
 		Anim_Destroy(battle_ui,"incoming_y")
 		Anim_Destroy(battle_ui,"incoming_y2")
-		battle_ui.party_type[0]=5+battle_ui.party_member[0];
-		battle_ui.party_type[1]=5+battle_ui.party_member[1];
+		battle_ui.party_type[0]=6+battle_ui.party_member[0];
+		battle_ui.party_type[1]=6+battle_ui.party_member[1];
 		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.ATTACK_RESETTING_START);
 		Flag_Set(FLAG_TYPE.STATIC,FLAG_STATIC.AP,Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.AP,0)+1)
 		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,0)+1)

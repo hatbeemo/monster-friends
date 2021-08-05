@@ -20,10 +20,20 @@ function Battle_EndTurn() {
 			instance_destroy();
 		}
 	}
+	if(instance_exists(item)){
+		with(item){
+			instance_destroy();
+		}
+	}
 	battle.turn_progress=0;
 	battle._ailment_check=0;
 	battle._ailment_target=0;
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.GOSPEL_PASSIVE_BOOST,0)
+	var proc=0;
+	repeat(battle_ui.party_size){
+		Battle_SetPartyBlock(0,battle_ui.party_member[proc])	
+		proc+=1
+	}
 	Battle_GotoNextState();
 	return true;
 }

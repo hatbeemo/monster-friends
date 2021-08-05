@@ -260,6 +260,31 @@ if(_state==BATTLE_STATE.MENU){
 		}
 	}else
 	
+	//行动目标
+	if(_menu==BATTLE_MENU.CHECK_DESCRIPTION){
+		//上/下
+		if(Input_IsPressed(INPUT.UP)){
+			var action=_menu_choice_check_description[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]-1;
+			if(action>=0){
+				audio_play_sound(snd_menu_switch,0,false);
+				Battle_SetMenuChoiceCheckDesc(action);
+				Battle_SetMenu(BATTLE_MENU.CHECK_DESCRIPTION);
+			}
+		}else if(Input_IsPressed(INPUT.DOWN)){
+			var action=_menu_choice_check_description[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]+1;
+			if(action<=2){
+				audio_play_sound(snd_menu_switch,0,false);
+				Battle_SetMenuChoiceCheckDesc(action);
+				Battle_SetMenu(BATTLE_MENU.CHECK_DESCRIPTION);
+			}
+		}
+		//返回
+		if(Input_IsPressed(INPUT.CANCEL)){
+			audio_play_sound(snd_menu_switch,0,false);
+			Battle_SetMenu(BATTLE_MENU.CHECK_TARGET);
+		}
+	}else
+	
 	//物品
 	if(_menu==BATTLE_MENU.BAG){
 		//上/下
@@ -280,25 +305,15 @@ if(_state==BATTLE_STATE.MENU){
 			Battle_SetMenu(BATTLE_MENU.BUTTON);
 		}else if(Input_IsPressed(INPUT.CONFIRM)){
 			audio_play_sound(snd_menu_confirm,0,false);
-			Battle_SetDialog("{sleep 1}{end}");
-			if(instance_exists(battle_skill_bomb)){
-				with(battle_skill_bomb){
-					if(fuse<=0){
-						event_user(1)
-					}
-				}
-			}else{
-				Battle_EndMenu();
-			}
+			battle_ui.hint_active=false;
+			Battle_SetHintDialog("",true);
+			turn_event[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=BATTLE_MENU.BAG_EVENT;
+			battle_ui.party_type[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=3;
+			Battle_NextMember();
 		}
 		
 		battle_soul.x=55;
 		battle_soul.y=354+36+32*(Battle_GetMenuChoiceItem()-_menu_choice_item_first[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]);
-	}else
-	
-	//仁慈
-	if(_menu==BATTLE_MENU.DEFEND){
-		Battle_EndMenu();
 	}
 }
 
@@ -365,10 +380,8 @@ if(_state==BATTLE_STATE.SECOND_ATTACK_PHASE){
 	}
 }
 //面板重置
-if(_menu==BATTLE_MENU.SKILL_EVENT){
-	if(instance_exists(battle_skill_bomb)&&!instance_exists(text_typer)){
-		Battle_EndMenu();
-	}
+if(_menu==BATTLE_MENU.SKILL_EVENT||_menu==BATTLE_MENU.BAG_EVENT){
+	
 }
 
 if(_menu==BATTLE_MENU.SKILL_EVENT_END){
@@ -393,6 +406,10 @@ if(_state==BATTLE_STATE.RESULT){
 	if(!instance_exists(_dialog[0])){
 		Battle_End();
 	}
+}
+
+if(_menu==BATTLE_MENU.DEFEND){
+
 }
 
 //检查战斗结束
