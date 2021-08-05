@@ -5,10 +5,19 @@
 event_inherited();
 
 //Normal
-idle_sprite[0]=spr_char_mopsy_faceidle_normal;
-idle_image[0]=0;
-idle_speed[0]=0;
-talk_sprite[0]=spr_char_mopsy_facetalk_normal;
-talk_image[0]=0;
-talk_speed[0]=1/2;
-
+idle_sprite=[
+spr_char_mopsy_faceidle_normal,
+spr_char_mopsy_faceidle_happy,
+];
+idle_sprite=[
+spr_char_mopsy_facetalk_normal,
+spr_char_mopsy_facetalk_happy,
+];
+for(i=0;i<array_length(idle_sprite);i++)
+{
+	idle_image[i]=0;
+	talk_image[i]=1;
+	idle_speed[i]=0;
+	talk_speed[i]=1/2;
+}
+face_id=3;

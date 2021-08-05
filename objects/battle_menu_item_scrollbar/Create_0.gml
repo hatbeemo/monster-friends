@@ -1,6 +1,6 @@
 depth=DEPTH_BATTLE.UI_HIGH;
-x=battle_board.x+battle_board.right-16;
-y=battle_board.y;
+x=0;
+y=0;
 
 _arrow=0;
 

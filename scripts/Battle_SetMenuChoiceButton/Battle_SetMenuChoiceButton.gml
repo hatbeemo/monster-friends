@@ -8,7 +8,7 @@ function Battle_SetMenuChoiceButton() {
 	}
 
 	if(BUTTON>=0 && BUTTON<=3){
-		battle._menu_choice_button=BUTTON;
+		battle._menu_choice_button[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=BUTTON;
 	
 		if(CALL){
 			Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.MENU_CHOICE_SWITCH);

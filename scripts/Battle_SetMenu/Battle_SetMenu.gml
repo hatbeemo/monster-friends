@@ -14,12 +14,50 @@ function Battle_SetMenu() {
 	////////////////////////////////////////
 	//按钮
 	if(MENU==BATTLE_MENU.BUTTON){
+		if(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)){
+			with(battle_ui)
+			{
+				if(menu_open==0)
+				{
+					menu_close=0;
+					menu_closed=false;
+				}else{
+					menu_close=-1;
+					menu_closed=false;	
+				}
+				if(menu_open==0||menu_open==-1)
+				{
+					menu_open=1;
+					menu_opened=false;
+				}
+			}
+		}else{
+			with(battle_ui)
+			{
+				if(menu_open==1)
+				{
+					menu_close=1;
+					menu_closed=false;
+				}else{
+					menu_close=-1;
+					menu_closed=false;	
+				}
+				if(menu_open==1||menu_open==-1)
+				{
+					menu_open=0;
+					menu_opened=false;
+				}
+			}
+		}
+		battle_ui.hint_active=false;
+		battle_ui.use_ap=0;
+		Battle_SetHintDialog("",true);
 		Battle_SetDialog(Battle_GetMenuDialog());
 	}
 	
 	////////////////////////////////////////
 	//战斗/行动目标
-	if(MENU==BATTLE_MENU.FIGHT_TARGET || MENU==BATTLE_MENU.ACT_TARGET){
+	if(MENU==BATTLE_MENU.SKILL_TARGET || MENU==BATTLE_MENU.CHECK_TARGET){
 		//越界归零
 		if(Battle_GetMenuChoiceEnemy()>=Battle_GetEnemyNumber()){
 			Battle_SetMenuChoiceEnemy(0,false);
@@ -28,35 +66,84 @@ function Battle_SetMenu() {
 		var text="";
 		var proc=0;
 		//创建敌人列表文字
-		repeat(3){
-			var inst=Battle_GetEnemy(proc);
-			if(instance_exists(inst)){
-				if(Battle_IsEnemySpareable(proc)){
-					text+="{color `yellow`}"
+		if(Battle_GetSkillTarget(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))=="ENEMY"){
+			repeat(3){
+				var inst=Battle_GetEnemy(proc);
+				if(instance_exists(inst)){
+					if(Battle_IsEnemySpareable(proc)){
+						text+="{color `yellow`}"
+					}
+					text+=Battle_GetEnemyName(proc)+"{color `white`}&";
 				}
-				text+=Battle_GetEnemyName(proc)+"{color `white`}&";
+				proc+=1;
 			}
-			proc+=1;
+		}else{
+			if(Battle_GetMenuChoiceEnemy()>=2){
+				Battle_SetMenuChoiceEnemy(0,false);
+			}
+			repeat(2){
+				//Create enemy's hp bar
+				if(MENU==BATTLE_MENU.SKILL_TARGET){
+					var inst=instance_create_depth(0,0,0,battle_menu_fight_hp_bar);
+					inst.player_mode=1;
+					inst.enemy_slot=proc;
+					inst.hp_max=Player_GetPartyHpMax(proc);
+					inst.hp=Player_GetPartyHp(proc);
+					inst.width=76;
+					inst.color=battle_ui.default_party_color[proc];
+				}
+				if(enemy_ailments!=-1){
+					var inst=instance_create_depth(0,0,0,battle_menu_fight_ailments);
+					inst.player_mode=1;
+					inst.enemy_slot=_enemy_slot;
+					inst.ailment_list=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0)
+					inst.ailment_numbers=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS,0)
+					inst.ailment_max=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0))
+				}
+				text+=Player_GetPartyName(proc)+"&";
+				proc+=1;
+			}
 		}
 		Battle_SetDialog(text,true);
+		battle_ui.hint_active=false;
+		battle_ui.use_ap=0;
+		Battle_SetHintDialog("",true);
 	}
 
-	if(MENU==BATTLE_MENU.FIGHT_AIM){
+	if(MENU==BATTLE_MENU.SKILL_EVENT){
+		with(battle_ui)
+		{
+			menu_close=menu_open;
+			menu_open=-1;
+			menu_opened=false;
+			menu_closed=false;
+		}
+		if(instance_exists(battle_attack)){
+			with(battle_attack){
+				event_user(BATTLE_TURN_EVENT.TURN_END);
+			}
+		}
+		if(instance_exists(battle_menu_skill)){
+			with(battle_menu_skill){
+				instance_destroy();
+			}
+		}
+		Anim_Destroy(battle_ui,"incoming_y")
+		Anim_Destroy(battle_ui,"incoming_y2")
 		Battle_SetMenuFightAnimTime(0);
 		Battle_SetMenuFightDamageTime(0);
 	
-		var OBJ=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.BATTLE_MENU_FIGHT_OBJ);
+		var OBJ=ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[battle.battle_turn_order[battle.turn_progress]]),Battle_GetMenuChoiceAction());
 		if(object_exists(OBJ)){
-			if(OBJ==battle_menu_fight||Object_GetBaseParent(OBJ)==battle_menu_fight){
+			if(OBJ==battle_menu_skill||Object_GetBaseParent(OBJ)==battle_menu_skill){
 				instance_create_depth(0,0,0,OBJ);
 			}
 		}
 	}
 	////////////////////////////////////////
 	//行动内容
-	if(MENU==BATTLE_MENU.ACT_ACTION){
-		var ENEMY=Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy());
-		var num=Battle_GetEnemyActionNumber(ENEMY);
+	if(MENU==BATTLE_MENU.SKILL_SELECT){
+		var num=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))
 	
 		//越界归零
 		if(Battle_GetMenuChoiceAction()>=num){
@@ -68,65 +155,59 @@ function Battle_SetMenu() {
 		var text2="";
 		var target=0;
 		//创建行动列表文字
-		repeat(Battle_GetEnemyActionNumber(ENEMY)){
+		repeat(ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))){
 			if(!target){
-				text+=Battle_GetEnemyActionName(ENEMY,proc)+"&";
+				text+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
 				target=!target;
 			}else{
-				text2+=Battle_GetEnemyActionName(ENEMY,proc)+"&";
+				text2+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
 				target=!target;
 			}
 			proc+=1;
 		}
-	
+		battle_ui.use_ap=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))
 		Battle_SetDialog(text,true);
 		Battle_SetDialog(text2,true,true);
+		var text3=Battle_GetSkillInfo(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0),Battle_GetMenuChoiceAction()))+"&";
+		battle_ui.hint_active=true;
+		Battle_SetHintDialog(text3,true);
+	}
+	
+	if(MENU==BATTLE_MENU.SKILL_POWER){
+		var num=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))
+	
+		var proc=0;
+		var text="";
+		var text2="";
+		var target=0;
+		//创建行动列表文字
+		repeat(ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))){
+			if(!target){
+				text+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
+				target=!target;
+			}else{
+				text2+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
+				target=!target;
+			}
+			proc+=1;
+		}
+		battle_ui.use_ap=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))
+		Battle_SetDialog(text,true);
+		Battle_SetDialog(text2,true,true);
+		var text3=Battle_GetSkillPowerInfo(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0),Battle_GetMenuChoiceAction()))+"&";
+		battle_ui.hint_active=true;
+		Battle_SetHintDialog(text3,true);
 	}
 
 	//物品
-	if(MENU==BATTLE_MENU.ITEM){
+	if(MENU==BATTLE_MENU.BAG){
 		Battle_SetMenuChoiceItem(0,false);
 		instance_create_depth(0,0,0,battle_menu_item_scrollbar);
 	}
 
 	//仁慈
-	if(MENU==BATTLE_MENU.MERCY){
-		var text="";
-		if(!Battle_IsMenuChoiceMercyOverride()){
-			//越界归零
-			if(Battle_GetMenuChoiceMercy()>Battle_IsMenuMercyFleeEnabled()){
-				Battle_SetMenuChoiceMercy(0,false);
-			}
-		
-			var proc=0;
-			//仁慈菜单文字
-			repeat(3){
-				if(Battle_IsEnemySpareable(proc)){
-					text+="{color `yellow`}";
-					break;
-				}
-				proc+=1;
-			}
-			text+=Lang_GetString("battle.menu.mercy.spare");
-		
-			//逃跑是否可用
-			if(Battle_IsMenuMercyFleeEnabled()){
-				text+="&{color `white`}";
-				text+=Lang_GetString("battle.menu.mercy.flee");
-			}
-		}else{
-			if(Battle_GetMenuChoiceMercy()>=Battle_GetMenuChoiceMercyOverrideNumber()){
-				Battle_SetMenuChoiceMercy(0,false);
-			}
-		
-			var proc=0;
-			repeat(Battle_GetMenuChoiceMercyOverrideNumber()){
-				text+=Battle_GetMenuChoiceMercyOverrideName(proc);
-				text+="&";
-				proc+=1;
-			}
-		}
-		Battle_SetDialog(text,true);
+	if(MENU==BATTLE_MENU.DEFEND){
+
 	}
 	
 	////////////////////////////////////////
@@ -134,17 +215,17 @@ function Battle_SetMenu() {
 		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.MENU_SWITCH);
 	}
 
-	if(MENU==BATTLE_MENU.FIGHT_ANIM){
-		if(instance_exists(battle_menu_fight)){
-			with(battle_menu_fight){
+	if(MENU==BATTLE_MENU.SKILL_EVENT){
+		if(instance_exists(battle_menu_skill)){
+			with(battle_menu_skill){
 				event_user(BATTLE_MENU_FIGHT_EVENT.ANIM);
 			}
 		}
 	}
 
-	if(MENU==BATTLE_MENU.FIGHT_DAMAGE){
-		if(instance_exists(battle_menu_fight)){
-			with(battle_menu_fight){
+	if(MENU==BATTLE_MENU.SKILL_DAMAGE){
+		if(instance_exists(battle_menu_skill)){
+			with(battle_menu_skill){
 				event_user(BATTLE_MENU_FIGHT_EVENT.DAMAGE);
 			}
 		}

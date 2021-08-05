@@ -6,7 +6,7 @@ function Battle_IsTurnValid() {
 		TURN=TURN.object_index;
 	}
 	if(object_exists(TURN)){
-		return (TURN==battle_turn || Object_GetBaseParent(TURN)==battle_turn);
+		return (TURN==battle_attack || Object_GetBaseParent(TURN)==battle_attack);
 	}else{
 		return false;
 	}

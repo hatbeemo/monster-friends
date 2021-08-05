@@ -1,0 +1,9 @@
+depth=DEPTH_BATTLE.ENEMY;
+_enemy_slot=-1;
+image_speed=0;
+image_index=0;
+_damage_timer=-1;
+enemy_ailments=-1;
+enemy_ailment_numbers=-1;
+_did_special=false;
+powersmash_turns=0;

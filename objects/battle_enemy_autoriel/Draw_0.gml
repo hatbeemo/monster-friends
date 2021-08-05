@@ -1,0 +1,40 @@
+if(color_timer>0){
+	image_blend=merge_color(c_white,new_color,clamp(color_timer,0,1));
+	color_timer-=0.05;
+}else{
+	image_blend=c_white
+}
+if(image_index==1)
+{
+	_fx_timer=0;
+	fx_mode=0;
+	if(_damage_timer%4==0){
+		if(arm_rot=0){
+			arm_rot=2;
+		}else{
+			arm_rot=0;
+		}
+	}
+	draw_sprite_ext(spr_enemy_autoriel_arms,8,x,y,1,1,-arm_rot,image_blend,1)
+	draw_sprite_ext(spr_enemy_autoriel_arms,9,x,y,1,1,arm_rot,image_blend,1)
+	draw_sprite_ext(spr_enemy_autoriel_body,1,x,y,1,1,0,image_blend,1)
+}else{
+	if(fx_mode==1){
+		_fx_timer+=0.25;
+		draw_sprite_ext(spr_enemy_autoriel_body,image_index,x,y,1,1,0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),1)
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[0]*2,x,y,1,1,0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),1)
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[1]*2+1,x,y,1,1,0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),1)
+        var size = abs((sin((_fx_timer / 16)) / 2))
+		draw_sprite_ext(spr_enemy_autoriel_body,image_index,x-(size/4),y-(size/4),1+(size/4),1+(size/4),0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),clamp(_fx_timer/20,0,0.4))
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[0]*2,x-(size/4),y-(size/4),1+(size/4),1+(size/4),0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),clamp(_fx_timer/20,0,0.4))
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[1]*2+1,x-(size/4),y-(size/4),1+(size/4),1+(size/4),0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),clamp(_fx_timer/20,0,0.4))
+        size = abs((sin((_fx_timer / 21)) / 2))
+		draw_sprite_ext(spr_enemy_autoriel_body,image_index,x-(size/4),y-(size/4),1+(size/4),1+(size/4),0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),clamp(_fx_timer/20,0,0.4))
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[0]*2,x-(size/4),y-(size/4),1+(size/4),1+(size/4),0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),clamp(_fx_timer/20,0,0.4))
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[1]*2+1,x-(size/4),y-(size/4),1+(size/4),1+(size/4),0,merge_color(image_blend,GOLD_COLOR,clamp(_fx_timer/10,0,1)),clamp(_fx_timer/20,0,0.4))
+	}else{
+		draw_sprite_ext(spr_enemy_autoriel_body,image_index,x,y,1,1,0,image_blend,1)
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[0]*2,x,y,1,1,0,image_blend,1)
+		draw_sprite_ext(spr_enemy_autoriel_arms,arm_index[1]*2+1,x,y,1,1,0,image_blend,1)
+	}
+}

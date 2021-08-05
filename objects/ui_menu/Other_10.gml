@@ -69,7 +69,7 @@ if(_menu==3){
 			color = "{color_text `yellow`}"
 			color2 = "{color_text `yellow`}"
 		}
-		_inst_list_1.text=_prefix+color+"Talk with the locals&"+color2+"("+string(npcs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0))+")&";
+		_inst_list_1.text=_prefix+color+"Talk with locals&"+color2+"("+string(npcs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_NPC_LOCAL_MAX,0))+")&";
 		color = "{color_text `gray`}"
 		color2 = "{color_text `gray_dark`}"
 		if(objs>=1){
@@ -80,7 +80,7 @@ if(_menu==3){
 			color = "{color_text `yellow`}"
 			color2 = "{color_text `yellow`}"
 		}
-		_inst_list_1.text+=color+"Inspect every object&"+color2+"("+string(objs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0))+")&";
+		_inst_list_1.text+=color+"Inspect objects&"+color2+"("+string(objs)+"/"+string(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.INTERACTS_OBJ_LOCAL_MAX,0))+")&";
 		var calls=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2);
 		calls+=ds_list_find_value(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.CALLS_LOCAL_LIST,0),real(room)*2+1);
 		color = "{color_text `gray`}"
@@ -93,7 +93,7 @@ if(_menu==3){
 			color = "{color_text `yellow`}"
 			color2 = "{color_text `yellow`}"
 		}
-		_inst_list_1.text+=color+"Chat with your friends&"+color2+"("+string(calls)+"/2)&&";
+		_inst_list_1.text+=color+"Chat with Happy&"+color2+"("+string(calls)+"/2)&&";
 		color = "{color_text `white`}"
 		_inst_list_1.text+=color+"TOTAL PROGRESS: 0%";
 	}

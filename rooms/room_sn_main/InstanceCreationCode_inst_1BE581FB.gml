@@ -1,2 +1,2 @@
 text="{face 20}{face_link 3}{face_emotion 12}{face_talking 0}{voice 4}* (\"Home of the&  Hounds\"...){pause}{clear}"
-text+="{font 3}{face 20}{face_emotion 11}{face_talking 0}{voice 4}* (I remember when I&  painted this for my&  art project,{sleep 20} back at&  tenth grade.)"
+text+="{font 3}{face_emotion 11}{face_talking 0}{voice 4}* (I remember when I&  painted this for my&  art project,{sleep 20} back at&  tenth grade.)"

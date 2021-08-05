@@ -1,0 +1,25 @@
+if(!instance_exists(text_typer)&&_done=1){
+	with(battle_enemy_autoriel){
+		fx_mode=1;
+		_did_special=1;
+	}
+	Battle_SetDialog("* The AUTORIEL gained first-move&  priority this turn!{pause}{end}")
+	_done=2;
+}
+if(!instance_exists(text_typer)&&_done=2){
+	battle.battle_turn_order=[2,3,4,0,1];
+	battle.turn_progress=0;
+	if(instance_exists(battle_attack)){
+		with(battle_attack){
+			event_user(BATTLE_TURN_EVENT.TURN_END);
+		}
+	}
+	if(instance_exists(battle_menu_skill)){
+		with(battle_menu_skill){
+			instance_destroy();
+		}
+	}
+	Battle_SetMenu(-1,false)
+	Battle_SetState(BATTLE_STATE.ATTACK_PREPARATION);
+	instance_destroy()
+}

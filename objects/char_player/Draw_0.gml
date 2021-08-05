@@ -1,7 +1,7 @@
 draw_self();
 
 {
-	if(keyboard_check(vk_enter)){
+	if(Input_IsPressed(INPUT.CONFIRM)){
 		draw_set_color(c_red);
 		if(dir==DIR.UP){
 			draw_rectangle(x-sprite_width/2+4,y-15,x+sprite_width/2-4,y-sprite_height+5,true);

@@ -8,20 +8,20 @@ function Battle_SetMenuChoiceItem() {
 	}
 
 	if(SLOT<Item_GetNumber()){
-		battle._menu_choice_item=SLOT;
-		while(SLOT>=battle._menu_choice_item_first+3){
-			battle._menu_choice_item_first+=1;
+		battle._menu_choice_item[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=SLOT;
+		while(SLOT>=battle._menu_choice_item_first[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]+3){
+			battle._menu_choice_item_first[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]+=1;
 		}
-		while(SLOT<battle._menu_choice_item_first){
-			battle._menu_choice_item_first-=1;
+		while(SLOT<battle._menu_choice_item_first[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]){
+			battle._menu_choice_item_first[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]-=1;
 		}
 	
 		//更新文字
 		var text="";
-		var proc=battle._menu_choice_item_first;
+		var proc=battle._menu_choice_item_first[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)];
 		repeat(3){
 			if(Item_IsValid(Item_Get(proc))){
-				text+="* "+Item_GetName(Item_Get(proc))+"&";
+				text+=Item_GetName(Item_Get(proc))+"&";
 				proc+=1;
 			}
 		}

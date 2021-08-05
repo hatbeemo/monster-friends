@@ -1,3 +1,5 @@
+audio_stop_all();
+
 Anim_Init();
 
 Console_Init();
@@ -51,5 +53,9 @@ Console_OutputLine("Game Author: "+GAME_AUTHOR);
 Console_OutputLine("Game Version: "+GAME_VERSION);
 
 //show_debug_overlay(true);
+
+global.HP_FONT = font_add_sprite_ext(spr_battle_ui_hpnumber,"0123456789?",true,2)
+global.DAMAGE_FONT = font_add_sprite_ext(spr_battle_damage,"0123456789-+",false,2)
+global.AILMENT_FONT = font_add_sprite_ext(spr_battle_menu_ailmentnumber,"0123456789",false,1)
 
 room_goto_next();

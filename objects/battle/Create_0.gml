@@ -53,19 +53,18 @@ _state=-1;
 _state_next=-1;
 //菜单
 _menu=-1;
-_menu_choice_button=0;
-_menu_choice_enemy=0;
-_menu_choice_action=0;
-_menu_choice_item=0;
-_menu_choice_item_first=0;
-_menu_choice_mercy=0;
-_menu_choice_mercy_override=false;
-_menu_choice_mercy_override_number=1;
-_menu_choice_mercy_override_name[0]="";
-_menu_choice_mercy_override_name[1]="";
-_menu_choice_mercy_override_name[2]="";
-_menu_fleeable=false;
-_menu_mercy_flee_enabled=Encounter_IsMenuMercyFleeEnabled(ENCOUNTER);
+_menu_choice_button[0]=0;
+_menu_choice_enemy[0]=0;
+_menu_choice_skill[0]=0;
+_menu_choice_skill_power[0]=0;
+_menu_choice_item[0]=0;
+_menu_choice_item_first[0]=0;
+_menu_choice_button[1]=0;
+_menu_choice_enemy[1]=0;
+_menu_choice_skill[1]=0;
+_menu_choice_skill_power[1]=0;
+_menu_choice_item[1]=0;
+_menu_choice_item_first[1]=0;
 _menu_dialog=Encounter_GetMenuDialog(ENCOUNTER);
 
 _menu_fight_damage=0;
@@ -79,6 +78,7 @@ _turn_info=ds_map_create();
 
 _dialog[0]=noone;
 _dialog[1]=noone;
+_hint_dialog=noone;
 _dialog_auto_end=true;
 _dialog_enemy_auto_end=true;
 
@@ -89,3 +89,15 @@ _player_temp_atk=0;
 _player_temp_def=0;
 _player_temp_spd=0;
 _player_temp_inv=0;
+
+battle_turn_order=[0,1,2,3,4];
+turn_event=[-1,-1,-1];
+turn_progress=0;
+
+_has_ailment=0;
+_ailment_check=0;
+_ailment_max=1;
+_ailment_target=0;
+_ailment_damage=0;
+
+_cutscene_mode=0;

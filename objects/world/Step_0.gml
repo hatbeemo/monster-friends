@@ -39,5 +39,6 @@ if(keyboard_check_pressed(vk_f4)&&!keyboard_check(vk_alt)&&!keyboard_check(vk_co
 	//display_set_gui_maximize();
 }
 
-if mouse_check_button_pressed(mb_any)
+if(mouse_check_button_pressed(mb_any)){
 	WindowFocus()
+}

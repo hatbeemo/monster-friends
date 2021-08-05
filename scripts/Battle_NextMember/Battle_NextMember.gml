@@ -1,0 +1,21 @@
+function Battle_NextMember() {
+	if(battle_ui.party_size==1||Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)>=1||Player_GetPartyHp(battle_ui.party_member[1])<=0){
+		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,battle.turn_progress)
+		if(battle.battle_turn_order[battle.turn_progress]>=2){
+			Battle_SetMenu(-1,false)
+			Battle_SetState(BATTLE_STATE.ATTACK_PREPARATION);
+		}else{
+			if(Player_GetPartyHp(battle_ui.party_member[0])<=0){
+				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,1)
+				battle.turn_progress+=1;
+			}
+			Battle_SetMenu(battle.turn_event[battle.battle_turn_order[battle.turn_progress]])
+		}
+	}else{
+		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,1)
+		Battle_SetMenu(BATTLE_MENU.BUTTON)
+		with(text_typer){
+			_skipping=true;	
+		}
+	}
+}

@@ -1,0 +1,9 @@
+sprite_index=spr_sn_fgtable2
+res_idle_sprite[DIR.UP]=sprite_index;
+res_idle_sprite[DIR.DOWN]=sprite_index;
+res_idle_sprite[DIR.LEFT]=sprite_index;
+res_idle_sprite[DIR.RIGHT]=sprite_index;
+res_move_sprite[DIR.UP]=sprite_index;
+res_move_sprite[DIR.DOWN]=sprite_index;
+res_move_sprite[DIR.LEFT]=sprite_index;
+res_move_sprite[DIR.RIGHT]=sprite_index;

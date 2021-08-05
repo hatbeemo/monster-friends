@@ -1,5 +1,5 @@
 var STATE=Battle_GetState();
-if(STATE==BATTLE_STATE.TURN_PREPARATION||STATE==BATTLE_STATE.IN_TURN){
+if(STATE==BATTLE_STATE.ATTACK_PREPARATION||STATE==BATTLE_STATE.ATTACK_PHASE){
 	if(follow_board){
 		x+=battle_board.x-battle_board.xprevious;
 		y+=battle_board.y-battle_board.yprevious;

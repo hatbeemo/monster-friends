@@ -6,6 +6,12 @@ function Battle_SetState() {
 
 	//菜单
 	if(STATE==BATTLE_STATE.MENU){
+		if(Player_GetPartyHp(0)<=0){
+			Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,1)
+		}else{
+			Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)
+		}
+		
 		Battle_SetNextState(BATTLE_STATE.DIALOG);
 	
 		Battle_SetMenuChoiceEnemy(0,false);
@@ -14,135 +20,171 @@ function Battle_SetState() {
 	
 		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.MENU_START);
 	}
-
+	
+	if(STATE==BATTLE_STATE.SKILL_EVENT_TRIGGER){
+		Battle_SetMenu(battle.turn_event[battle.battle_turn_order[battle.turn_progress]]);
+	}
 	//对话
 	if(STATE==BATTLE_STATE.DIALOG){
-		Battle_SetNextState(BATTLE_STATE.TURN_PREPARATION);
+		Battle_SetNextState(BATTLE_STATE.AILMENT_EFFECTS);
 	
 		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.DIALOG_START);
 	}
 
 	//回合准备
-	if(STATE==BATTLE_STATE.TURN_PREPARATION){
-		Battle_SetNextState(BATTLE_STATE.IN_TURN);
+	if(STATE==BATTLE_STATE.ATTACK_PREPARATION){
+		Battle_SetNextState(BATTLE_STATE.ATTACK_PHASE);
 	
-		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.TURN_PREPARATION_START);
+		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.ATTACK_PREPARATION_START,battle.battle_turn_order[battle.turn_progress]-2);
 	
-		if(instance_exists(battle_turn)){
-			with(battle_turn){
-				event_user(BATTLE_TURN_EVENT.TURN_PREPARATION_START);
+		if(instance_exists(battle_attack)){
+			with(battle_attack){
+				event_user(BATTLE_TURN_EVENT.ATTACK_PREPARATION_START);
 			}
 		}
-	
+		Anim_Create(battle_ui,"incoming_y",ANIM_TWEEN.SINE,ANIM_EASE.OUT,80,-100,30,0)
+		if(instance_exists(battle_enemy_autoriel)&&!instance_exists(battle_attack_special)){
+			Anim_Create(battle_ui,"incoming_y2",ANIM_TWEEN.SINE,ANIM_EASE.OUT,80,-100,30,0)	
+		}else{
+			battle_ui.incoming_y2=80;
+		}
 		Battle_SetTurnTime(Battle_GetTurnInfo(BATTLE_TURN.TIME,0));
-	
-		battle_soul.x=battle_board.x+Battle_GetTurnInfo(BATTLE_TURN.SOUL_X,0);
-		battle_soul.y=battle_board.y+Battle_GetTurnInfo(BATTLE_TURN.SOUL_Y,0);
-	
-		var X_OLD=battle_board.x;
-		var Y_OLD=battle_board.y;
-		var UP_OLD=battle_board.up;
-		var DOWN_OLD=battle_board.down;
-		var LEFT_OLD=battle_board.left;
-		var RIGHT_OLD=battle_board.right;
-		var X_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_X,BATTLE_BOARD.X)-X_OLD;
-		var Y_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_Y,BATTLE_BOARD.Y)-Y_OLD;
-		var UP_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_UP,BATTLE_BOARD.UP)-UP_OLD;
-		var DOWN_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_DOWN,BATTLE_BOARD.DOWN)-DOWN_OLD;
-		var LEFT_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_LEFT,BATTLE_BOARD.LEFT)-LEFT_OLD;
-		var RIGHT_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RIGHT,BATTLE_BOARD.RIGHT)-RIGHT_OLD;
-		var MOVE_TWEEN=Battle_GetTurnInfo(BATTLE_TURN.BOARD_MOVE_TWEEN,ANIM_TWEEN.LINEAR);
-		var MOVE_EASE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_MOVE_EASE,ANIM_EASE.OUT);
-		var MOVE_MODE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_MOVE_MODE,BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED);
-		var MOVE_SPEED=Battle_GetTurnInfo(BATTLE_TURN.BOARD_MOVE_SPEED,10);
-		var MOVE_DURATION=Battle_GetTurnInfo(BATTLE_TURN.BOARD_MOVE_DURATION,30);
-		var SIZE_TWEEN=Battle_GetTurnInfo(BATTLE_TURN.BOARD_SIZE_TWEEN,ANIM_TWEEN.LINEAR);
-		var SIZE_EASE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_SIZE_EASE,ANIM_EASE.OUT);
-		var SIZE_MODE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_SIZE_MODE,BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED);
-		var SIZE_SPEED=Battle_GetTurnInfo(BATTLE_TURN.BOARD_SIZE_SPEED,10);
-		var SIZE_DURATION=Battle_GetTurnInfo(BATTLE_TURN.BOARD_SIZE_DURATION,30);
-	
-		if(MOVE_MODE==BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED){
-			Anim_Create(battle_board,"x",MOVE_TWEEN,MOVE_EASE,X_OLD,X_CHANGE,round(abs(X_CHANGE/MOVE_SPEED)));
-			Anim_Create(battle_board,"y",MOVE_TWEEN,MOVE_EASE,Y_OLD,Y_CHANGE,round(abs(Y_CHANGE/MOVE_SPEED)));
-		}else{
-			Anim_Create(battle_board,"x",MOVE_TWEEN,MOVE_EASE,X_OLD,X_CHANGE,MOVE_DURATION);
-			Anim_Create(battle_board,"y",MOVE_TWEEN,MOVE_EASE,Y_OLD,Y_CHANGE,MOVE_DURATION);
-		}
-		if(SIZE_MODE==BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED){
-			Anim_Create(battle_board,"up",SIZE_TWEEN,SIZE_EASE,UP_OLD,UP_CHANGE,round(abs(UP_CHANGE/SIZE_SPEED)));
-			Anim_Create(battle_board,"down",SIZE_TWEEN,SIZE_EASE,DOWN_OLD,DOWN_CHANGE,round(abs(DOWN_CHANGE/SIZE_SPEED)));
-			Anim_Create(battle_board,"left",SIZE_TWEEN,SIZE_EASE,LEFT_OLD,LEFT_CHANGE,round(abs(LEFT_CHANGE/SIZE_SPEED)));
-			Anim_Create(battle_board,"right",SIZE_TWEEN,SIZE_EASE,RIGHT_OLD,RIGHT_CHANGE,round(abs(RIGHT_CHANGE/SIZE_SPEED)));
-		}else{
-			Anim_Create(battle_board,"up",SIZE_TWEEN,SIZE_EASE,UP_OLD,UP_CHANGE,SIZE_DURATION);
-			Anim_Create(battle_board,"down",SIZE_TWEEN,SIZE_EASE,DOWN_OLD,DOWN_CHANGE,SIZE_DURATION);
-			Anim_Create(battle_board,"left",SIZE_TWEEN,SIZE_EASE,LEFT_OLD,LEFT_CHANGE,SIZE_DURATION);
-			Anim_Create(battle_board,"right",SIZE_TWEEN,SIZE_EASE,RIGHT_OLD,RIGHT_CHANGE,SIZE_DURATION);
-		}
 	}
 
 	//回合内
-	if(STATE==BATTLE_STATE.IN_TURN){
-		Battle_SetNextState(BATTLE_STATE.BOARD_RESETTING);
-		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.TURN_START);
+	if(STATE==BATTLE_STATE.ATTACK_PHASE){
+		if(instance_exists(battle_attack_special)){
+		}else if(instance_exists(battle_enemy_autoriel)){
+			Battle_SetNextState(BATTLE_STATE.SECOND_ATTACK_PHASE);
+			Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.TURN_START,Battle_ConvertMenuChoiceEnemyToEnemySlot(battle.battle_turn_order[battle.turn_progress-1]-2));
+		}else{
+			battle.turn_progress+=1;
+			if(battle.turn_progress>=array_length(battle.battle_turn_order)){
+				Battle_SetState(BATTLE_STATE.AILMENT_EFFECTS_AFTER);
+			}else if(battle.battle_turn_order[battle.turn_progress]==0||battle.battle_turn_order[battle.turn_progress]==1){
+				Battle_SetNextState(BATTLE_STATE.SKILL_EVENT_TRIGGER)
+				Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.TURN_START,Battle_ConvertMenuChoiceEnemyToEnemySlot(battle.battle_turn_order[battle.turn_progress-1]-2));
+			}else{
+				Battle_SetNextState(BATTLE_STATE.ATTACK_PREPARATION);
+				Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.TURN_START,Battle_ConvertMenuChoiceEnemyToEnemySlot(battle.battle_turn_order[battle.turn_progress-1]-2));
+			}
+		}
+		if(instance_exists(battle_attack)){
+			with(battle_attack){
+				if(instance_exists(battle_enemy_autoriel)&&attack_priority==0){
+					event_user(BATTLE_TURN_EVENT.TURN_START);
+				}else if(!instance_exists(battle_enemy_autoriel)||battle.battle_turn_order[battle.turn_progress]!=3){
+					event_user(BATTLE_TURN_EVENT.TURN_START);	
+				}
+			}
+		}
+	}
 	
-		if(instance_exists(battle_turn)){
-			with(battle_turn){
-				event_user(BATTLE_TURN_EVENT.TURN_START);
+	if(STATE==BATTLE_STATE.SECOND_ATTACK_PHASE){
+		battle.turn_progress+=1;
+		if(battle.turn_progress>=array_length(battle.battle_turn_order)){
+			Battle_SetState(BATTLE_STATE.AILMENT_EFFECTS_AFTER);
+		}else if(battle.battle_turn_order[battle.turn_progress]==0||battle.battle_turn_order[battle.turn_progress]==1){
+			Battle_SetNextState(BATTLE_STATE.SKILL_EVENT_TRIGGER)
+		}else{
+			Battle_SetNextState(BATTLE_STATE.ATTACK_PREPARATION);
+		}
+		if(instance_exists(battle_attack)){
+			with(battle_attack){
+				if(attack_priority==1){
+					event_user(BATTLE_TURN_EVENT.TURN_START);
+				}
 			}
 		}
 	}
 
 	//面版重置
-	if(STATE==BATTLE_STATE.BOARD_RESETTING){
-		Battle_SetNextState(BATTLE_STATE.MENU);
-	
-		var X_OLD=battle_board.x;
-		var Y_OLD=battle_board.y;
-		var UP_OLD=battle_board.up;
-		var DOWN_OLD=battle_board.down;
-		var LEFT_OLD=battle_board.left;
-		var RIGHT_OLD=battle_board.right;
-		var X_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_X,BATTLE_BOARD.X)-X_OLD;
-		var Y_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_Y,BATTLE_BOARD.Y)-Y_OLD;
-		var UP_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_UP,BATTLE_BOARD.UP)-UP_OLD;
-		var DOWN_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_DOWN,BATTLE_BOARD.DOWN)-DOWN_OLD;
-		var LEFT_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_LEFT,BATTLE_BOARD.LEFT)-LEFT_OLD;
-		var RIGHT_CHANGE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_RIGHT,BATTLE_BOARD.RIGHT)-RIGHT_OLD;
-		var MOVE_TWEEN=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_MOVE_TWEEN,ANIM_TWEEN.LINEAR);
-		var MOVE_EASE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_MOVE_EASE,ANIM_EASE.OUT);
-		var MOVE_MODE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_MOVE_MODE,BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED);
-		var MOVE_SPEED=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_MOVE_SPEED,10);
-		var MOVE_DURATION=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_MOVE_DURATION,30);
-		var SIZE_TWEEN=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_SIZE_TWEEN,ANIM_TWEEN.LINEAR);
-		var SIZE_EASE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_SIZE_EASE,ANIM_EASE.OUT);
-		var SIZE_MODE=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_SIZE_MODE,BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED);
-		var SIZE_SPEED=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_SIZE_SPEED,10);
-		var SIZE_DURATION=Battle_GetTurnInfo(BATTLE_TURN.BOARD_RESET_SIZE_DURATION,30);
-	
-		if(MOVE_MODE==BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED){
-			Anim_Create(battle_board,"x",MOVE_TWEEN,MOVE_EASE,X_OLD,X_CHANGE,round(abs(X_CHANGE/MOVE_SPEED)));
-			Anim_Create(battle_board,"y",MOVE_TWEEN,MOVE_EASE,Y_OLD,Y_CHANGE,round(abs(Y_CHANGE/MOVE_SPEED)));
-		}else{
-			Anim_Create(battle_board,"x",MOVE_TWEEN,MOVE_EASE,X_OLD,X_CHANGE,MOVE_DURATION);
-			Anim_Create(battle_board,"y",MOVE_TWEEN,MOVE_EASE,Y_OLD,Y_CHANGE,MOVE_DURATION);
+	if(STATE==BATTLE_STATE.AILMENT_EFFECTS){
+		var proc=battle._ailment_target;
+		var proc2=battle._ailment_check;
+		var number=1;
+		battle._has_ailment=0;
+		if(instance_exists(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc)))){
+			with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))){
+				if(enemy_ailments!=-1){
+					battle._ailment_max=array_length(enemy_ailments)
+					if(enemy_ailments[proc2]>=1){
+						battle._has_ailment=enemy_ailments[proc2]
+						if(enemy_ailments[proc2]!=1){
+							var number=enemy_ailment_numbers[proc2]
+							enemy_ailment_numbers[proc2]-=1;
+							if(enemy_ailment_numbers[proc2]<=0){
+								battle._has_ailment=-enemy_ailments[proc2]
+								array_delete(enemy_ailments,proc2,1)
+								array_push(enemy_ailments,-1)
+								array_delete(enemy_ailment_numbers,proc2,1)
+								array_push(enemy_ailment_numbers,-1)
+							}
+						}
+					}
+				}
+			}
 		}
-		if(SIZE_MODE==BATTLE_TURN_BOARD_TRANSFORM_MODE.SPEED){
-			Anim_Create(battle_board,"up",SIZE_TWEEN,SIZE_EASE,UP_OLD,UP_CHANGE,round(abs(UP_CHANGE/SIZE_SPEED)));
-			Anim_Create(battle_board,"down",SIZE_TWEEN,SIZE_EASE,DOWN_OLD,DOWN_CHANGE,round(abs(DOWN_CHANGE/SIZE_SPEED)));
-			Anim_Create(battle_board,"left",SIZE_TWEEN,SIZE_EASE,LEFT_OLD,LEFT_CHANGE,round(abs(LEFT_CHANGE/SIZE_SPEED)));
-			Anim_Create(battle_board,"right",SIZE_TWEEN,SIZE_EASE,RIGHT_OLD,RIGHT_CHANGE,round(abs(RIGHT_CHANGE/SIZE_SPEED)));
-		}else{
-			Anim_Create(battle_board,"up",SIZE_TWEEN,SIZE_EASE,UP_OLD,UP_CHANGE,SIZE_DURATION);
-			Anim_Create(battle_board,"down",SIZE_TWEEN,SIZE_EASE,DOWN_OLD,DOWN_CHANGE,SIZE_DURATION);
-			Anim_Create(battle_board,"left",SIZE_TWEEN,SIZE_EASE,LEFT_OLD,LEFT_CHANGE,SIZE_DURATION);
-			Anim_Create(battle_board,"right",SIZE_TWEEN,SIZE_EASE,RIGHT_OLD,RIGHT_CHANGE,SIZE_DURATION);
+		battle._ailment_check+=1;
+		Battle_SetNextState(BATTLE_STATE.AILMENT_EFFECTS);
+		if(battle._ailment_check>=battle._ailment_max){
+			battle._ailment_check=0;
+			battle._ailment_target+=1;
+			if(battle._ailment_target>=Battle_GetEnemyNumber()){
+				if(battle.turn_progress>=array_length(battle.battle_turn_order)){
+					Battle_SetNextState(BATTLE_STATE.AILMENT_EFFECTS_AFTER);
+				}else{
+					Battle_SetNextState(BATTLE_STATE.ATTACK_PREPARATION);
+				}
+			}
 		}
-	
-		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.BOARD_RESETTING_START);
+		if(battle._has_ailment==2){
+			Battle_SetAilmentDamage(number);
+			with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))){
+				event_user(14)
+				new_color=RED_COLOR
+				color_timer=1.5
+			}
+			if(instance_exists(battle_enemy_autoriel)&&Battle_GetEnemyName(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))=="AUTORIEL"){
+				Battle_SetDialog("* The AUTORIEL took {color_text `specred`}"+string(number)+"{color_text `white`} damage from&  its burns!{pause}{end}")
+			}else{
+				Battle_SetDialog("* "+Battle_GetEnemyName(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))+" took {color_text `specred`}"+string(number)+"{color_text `white`} damage from&  their burns!{pause}{end}")
+			}
+		}else if(battle._has_ailment=-2){
+			Battle_SetAilmentDamage(number);
+			with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))){
+				event_user(14)
+				new_color=RED_COLOR
+				color_timer=1.5
+			}
+			if(instance_exists(battle_enemy_autoriel)&&Battle_GetEnemyName(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))=="AUTORIEL"){
+				Battle_SetDialog("* The AUTORIEL took {color_text `specred`}"+string(number)+"{color_text `white`} damage from&  its burns!{pause}{clear}* The AUTORIEL's burns went away!{pause}{end}")
+			}else{
+				Battle_SetDialog("* "+Battle_GetEnemyName(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))+" took {color_text `specred`}"+string(number)+"{color_text `white`} damage from&  their burns!&* "+Battle_GetEnemyName(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))+"'s burns went away!{pause}{end}")
+			}
+		}
 	}
-
+	
+	if(STATE==BATTLE_STATE.AILMENT_EFFECTS_AFTER){
+		Anim_Destroy(battle_ui,"incoming_y")
+		Anim_Destroy(battle_ui,"incoming_y2")
+		battle_ui.party_type[0]=5+battle_ui.party_member[0];
+		battle_ui.party_type[1]=5+battle_ui.party_member[1];
+		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.ATTACK_RESETTING_START);
+		Flag_Set(FLAG_TYPE.STATIC,FLAG_STATIC.AP,Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.AP,0)+1)
+		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,0)+1)
+		battle_ui.alarm[0]=10;
+		Battle_SetNextState(BATTLE_STATE.MENU);
+		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.ATTACK_RESETTING_START);
+		Battle_SetDialog("{sleep 1}{end}");
+		if(instance_exists(battle_skill_bomb)){
+			with(battle_skill_bomb){
+				if(fuse>0){
+					event_user(0)
+				}
+			}
+		}
+	}
 	return true;
 
 

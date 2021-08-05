@@ -1,0 +1,24 @@
+attacking=false;
+_done=1;
+if(battle_enemy_autoriel.enemy_ailments==-1){
+	battle_enemy_autoriel.enemy_ailments=[1]
+}else{
+	array_push(battle_enemy_autoriel.enemy_ailments,1)
+}
+if(battle_enemy_autoriel.enemy_ailment_numbers==-1){
+	battle_enemy_autoriel.enemy_ailment_numbers=[2]
+}else{
+	array_push(battle_enemy_autoriel.enemy_ailment_numbers,2)
+}
+if(battle_enemy_autoriel.enemy_ailments==-1){
+	battle_enemy_autoriel.enemy_ailments=[2]
+}else{
+	array_push(battle_enemy_autoriel.enemy_ailments,2)
+}
+if(battle_enemy_autoriel.enemy_ailment_numbers==-1){
+	battle_enemy_autoriel.enemy_ailment_numbers=[7]
+}else{
+	array_push(battle_enemy_autoriel.enemy_ailment_numbers,7)
+}
+text = "* The AUTORIEL gained {color_text `specred`}7 Burned{color_text `white`}!&* The AUTORIEL gained {color_text `specred`}2 Vulnerable{color_text `white`}!{pause}{end}"
+Battle_SetDialog(text);

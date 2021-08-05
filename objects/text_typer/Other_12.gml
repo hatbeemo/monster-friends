@@ -567,4 +567,12 @@ switch(cmd[|0]){
 			_skip_space=cmd[|1];
 		}
 		break;
+		
+	case "char_per_frame":
+		if(is_real(cmd[|1])){
+			if(cmd[|1]>=1){
+				_char_per_frame=cmd[|1];
+			}
+		}
+		break;
 }

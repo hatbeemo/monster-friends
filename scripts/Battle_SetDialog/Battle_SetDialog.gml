@@ -22,8 +22,8 @@ function Battle_SetDialog() {
 
 	if(TEXT!=""){
 		//创建实例
-		var tx=battle_board.x-battle_board.left-5+28;
-		var ty=battle_board.y-battle_board.up-5+20;
+		var tx=30;
+		var ty=374;
 		if(CHOICE){
 			tx+=40
 		}

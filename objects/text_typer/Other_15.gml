@@ -65,10 +65,9 @@ _group_voice[4,0]=snd_text_voice_bonnie;
 _group_face[0]=face;
 
 _group_face[1]=face_mopsy_normal;
-_group_face[2]=face_mopsy_happy;
 
 _group_face[10]=face_whimsie_normal;
-_group_face[11]=face_whimsie_focus;
-_group_face[12]=face_whimsie_shock;
 
 _group_face[20]=face_bonnie;
+
+_group_face[30]=face_gospel;
