@@ -80,6 +80,10 @@ repeat(party_size){
 			draw_sprite(spr_battle_button_skillpower,1+button[1,i]*4,x+party_x[i]+10+54,y+313+4);
 			draw_sprite(spr_battle_button_skillpower,2+button[2,i]*4,x+party_x[i]+10+54+54,y+313+4);
 			draw_sprite(spr_battle_button_skillpower,3+button[3,i]*4,x+party_x[i]+10+54+54+54,y+313+4);
+		}else if(MENU==BATTLE_MENU.SKILL_FUSE){
+			draw_sprite(spr_battle_button_skillfuse,0+button[0,i]*3,x+party_x[i]+10,y+313+4);
+			draw_sprite(spr_battle_button_skillfuse,1+button[1,i]*3,x+party_x[i]+10+72,y+313+4);
+			draw_sprite(spr_battle_button_skillfuse,2+button[2,i]*3,x+party_x[i]+10+72+72,y+313+4);
 		}else{
 			draw_sprite(spr_battle_button_skill,button[0,i],x+party_x[i]+10,y+313+4);
 			draw_sprite(spr_battle_button_check,button[1,i],x+party_x[i]+80,y+313+4);

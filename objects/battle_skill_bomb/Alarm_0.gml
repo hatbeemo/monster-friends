@@ -11,7 +11,7 @@ if(type="DMG"){
 	}
 	var proc=0;
 	repeat(3){
-		with(Battle_GetEnemy(proc)){
+		with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))){
 			var proc2=0;
 			enemy_damage_deal=other.damage*bomb_num;
 			if(enemy_ailments!=-1){
@@ -57,7 +57,7 @@ if(type="DMG"){
 	damage*=bomb_num
 	var proc=0
 	repeat(battle_ui.party_size){
-		Battle_SetPartyBlock(Battle_GetPartyBlock(battle_ui.party_member[proc])+damage,battle_ui.party_member[proc])	
+		Battle_SetPartyBlock(Battle_GetPartyBlock(battle_ui.party_member[proc])+damage,battle_ui.party_member[proc])
 		battle_ui.new_hp_color[proc]=AQUA_COLOR;
 		battle_ui.hp_color_timer[proc]=2;
 		proc+=1

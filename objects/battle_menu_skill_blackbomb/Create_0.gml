@@ -1,5 +1,5 @@
 ap_cost=1;
-fuse=2;
+fuse=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
 use_name="{color_text `whimsie`}Black Bomb"
 name="Black Bomb[{color_text `specaqua`}1{color_text `white`}]"
 info="Whimsie throws a bomb that will&deal {color_text `specred`}"+string(fuse*2)+" DMG{color_text `white`} upon detonation.&The bomb will have a Fuse of "+string(fuse)+"."
@@ -9,6 +9,7 @@ deals_dmg=1;
 target="ALL";
 _done=false;
 _no_ap=false;
+is_bomb=true;
 Battle_SetMenuFightAnimTime(30);
 Battle_SetMenuFightDamageTime(45);
 Battle_SetMenuFightDamage(damage);

@@ -252,6 +252,7 @@
     {"id":{"name":"snd_autoriel_scream1","path":"sounds/snd_autoriel_scream1/snd_autoriel_scream1.yy",},"order":18,},
     {"id":{"name":"Battle_SetFleeable","path":"scripts/Battle_SetFleeable/Battle_SetFleeable.yy",},"order":7,},
     {"id":{"name":"Battle_SetMenuFightDamage","path":"scripts/Battle_SetMenuFightDamage/Battle_SetMenuFightDamage.yy",},"order":1,},
+    {"id":{"name":"Battle_IsSkillBomb","path":"scripts/Battle_IsSkillBomb/Battle_IsSkillBomb.yy",},"order":13,},
     {"id":{"name":"Battle_GetMenuFightDamage","path":"scripts/Battle_GetMenuFightDamage/Battle_GetMenuFightDamage.yy",},"order":3,},
     {"id":{"name":"Battle_SetMenuFightAnimTime","path":"scripts/Battle_SetMenuFightAnimTime/Battle_SetMenuFightAnimTime.yy",},"order":5,},
     {"id":{"name":"Battle_GetMenuFightAnimTime","path":"scripts/Battle_GetMenuFightAnimTime/Battle_GetMenuFightAnimTime.yy",},"order":7,},

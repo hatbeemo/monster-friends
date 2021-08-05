@@ -94,6 +94,7 @@ function Flag_Custom() {
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_AILMENTS,ds_list_create());
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_AILMENTS+1,ds_list_create());
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.GOSPEL_PASSIVE_BOOST,0);
+	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
 	Item_SetWeapon(item_stick);
 	Item_SetArmor(item_bandage);
 	Item_Add(item_chocomilk);

@@ -45,7 +45,7 @@ if(menu_open>=0||menu_closed>=0){
 var STATUS=Battle_GetState();
 var MENU=Battle_GetMenu();
 
-if(MENU==BATTLE_MENU.SKILL_POWER){
+if(MENU==BATTLE_MENU.SKILL_POWER||MENU==BATTLE_MENU.SKILL_FUSE){
 	button[0,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[1,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[2,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;

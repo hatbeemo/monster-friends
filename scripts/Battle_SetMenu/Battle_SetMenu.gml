@@ -159,7 +159,7 @@ function Battle_SetMenu() {
 	}
 	////////////////////////////////////////
 	//行动内容
-	if(MENU==BATTLE_MENU.SKILL_SELECT){
+	if(MENU==BATTLE_MENU.SKILL_SELECT||MENU==BATTLE_MENU.SKILL_FUSE){
 		var num=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))
 	
 		//越界归零

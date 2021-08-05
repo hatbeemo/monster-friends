@@ -29,6 +29,7 @@ function Battle_EndTurn() {
 	battle._ailment_check=0;
 	battle._ailment_target=0;
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.GOSPEL_PASSIVE_BOOST,0)
+	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1)
 	var proc=0;
 	repeat(battle_ui.party_size){
 		Battle_SetPartyBlock(0,battle_ui.party_member[proc])	

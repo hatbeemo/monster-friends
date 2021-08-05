@@ -8,6 +8,7 @@ deals_dmg=1;
 target="ENEMY";
 _done=false;
 _no_ap=false;
+is_bomb=false;
 Battle_SetMenuFightAnimTime(30);
 Battle_SetMenuFightDamageTime(45);
 Battle_SetMenuFightDamage(damage);

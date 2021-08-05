@@ -105,10 +105,18 @@ if(_state==BATTLE_STATE.MENU){
 			if(battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]==1&&Battle_IsSkillDealsDmg(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
 				if(Battle_GetAp()>=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
 					audio_play_sound(snd_menu_confirm,0,false);
-
 					Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.GOSPEL_PASSIVE_BOOST,0);
 					Battle_SetMenuChoiceSkillPower(0);
 					Battle_SetMenu(BATTLE_MENU.SKILL_POWER);
+				}else{
+					audio_play_sound(snd_menu_buzzer,0,false);	
+				}
+			}else if(battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]==0&& Battle_IsSkillBomb(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
+				if(Battle_GetAp()>=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
+					audio_play_sound(snd_menu_confirm,0,false);
+					Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
+					Battle_SetMenuChoiceSkillPower(0);
+					Battle_SetMenu(BATTLE_MENU.SKILL_FUSE);
 				}else{
 					audio_play_sound(snd_menu_buzzer,0,false);	
 				}
@@ -182,6 +190,52 @@ if(_state==BATTLE_STATE.MENU){
 		}
 	}else
 	
+	if(_menu==BATTLE_MENU.SKILL_FUSE){
+		//左/右
+		if(Input_IsPressed(INPUT.LEFT)){
+			var action=_menu_choice_skill_power[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]-1;
+			if(action>=0){
+				audio_play_sound(snd_menu_switch,0,false);
+				Battle_SetMenuChoiceSkillPower(action);
+				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,Battle_GetMenuChoiceSkillPower()+1);
+				Battle_SetMenu(BATTLE_MENU.SKILL_FUSE);
+			}
+		}else if(Input_IsPressed(INPUT.RIGHT)){
+			var action=_menu_choice_skill_power[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]+1;
+			if(action<=2){
+				audio_play_sound(snd_menu_switch,0,false);
+				Battle_SetMenuChoiceSkillPower(action);
+				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,Battle_GetMenuChoiceSkillPower()+1);
+				Battle_SetMenu(BATTLE_MENU.SKILL_FUSE);
+			}
+		}
+
+		//返回/确定
+		if(Input_IsPressed(INPUT.CANCEL)){
+			Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
+			audio_play_sound(snd_menu_switch,0,false);
+			Battle_SetMenu(BATTLE_MENU.SKILL_SELECT);
+		}else if(Input_IsPressed(INPUT.CONFIRM)){
+			if(Battle_GetAp()>=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
+				audio_play_sound(snd_menu_confirm,0,false);
+				if(Battle_GetSkillTarget(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))!="ALL"){
+					Battle_SetMenu(BATTLE_MENU.SKILL_TARGET);
+				}else{
+					battle_ui.hint_active=false;
+					Battle_SetHintDialog("",true);
+					turn_event[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=BATTLE_MENU.SKILL_EVENT;
+					if(Battle_IsSkillDealsDmg(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
+						battle_ui.party_type[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=2;
+					}else{
+						battle_ui.party_type[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
+					}
+					Battle_NextMember();
+				}
+			}else{
+				audio_play_sound(snd_menu_buzzer,0,false);	
+			}
+		}
+	}else
 	//战斗目标
 	if(_menu==BATTLE_MENU.SKILL_TARGET){
 		//上/下
