@@ -1,4 +1,7 @@
 ///@desc Turn Preparation Start
+if(_hp<=0){
+	room_goto(room_endscreen_win)
+}
 //Prepare the attack
 var ap = Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,0)
 var sp = Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_SP,0)

@@ -18,3 +18,5 @@ check_desc[1]="* Gospel Passive - {color_text `gospel`}Power Boost{color_text `w
 check_desc[2]="* Gospel SPECIAL - {color_text `specgold`}Power Surge{color_text `white`}&* Recover {color_text `specaqua`}ALL AP{color_text `white`}.&* Gain {color_text `specred`}1 Vulnerable{color_text `white`}."
 _did_special=false;
 powersmash_turns=0;
+new_color=c_white
+color_timer=0;

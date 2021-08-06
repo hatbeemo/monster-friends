@@ -1,4 +1,6 @@
 attacking=false
+battle_enemy_gospel.new_color=LTAQUA_COLOR;
+battle_enemy_gospel.color_timer=3.5;
 Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP_MAX,10))
 Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_SP,0)
 var has_vulnerable=0;

@@ -1,7 +1,7 @@
 ///@desc Anim
 event_inherited();
 audio_play_sound(snd_player_atk,0,false)
-with(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy())){
+with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy()))){
 	var proc=0;
 	if(enemy_ailments!=-1){
 		repeat(array_length(enemy_ailments)){
