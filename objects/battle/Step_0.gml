@@ -7,6 +7,9 @@ if(Battle_GetSp()>12){
 }
 if(_state==BATTLE_STATE.MENU){
 	//按钮
+	if(Battle_GetSp()<6&&Battle_GetMenuChoiceButton()==4){
+		Battle_SetMenuChoiceButton(0);
+	}
 	if(_menu==BATTLE_MENU.BUTTON){
 		//左/右
 		if(Input_IsPressed(INPUT.LEFT)){
