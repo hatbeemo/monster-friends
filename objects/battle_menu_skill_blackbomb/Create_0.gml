@@ -1,7 +1,7 @@
-ap_cost=1;
+ap_cost=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
 fuse=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
 use_name="{color_text `whimsie`}Black Bomb"
-name="Black Bomb[{color_text `specaqua`}1{color_text `white`}]"
+name="Black Bomb[{color_text `specaqua`}"+string(ap_cost)+"{color_text `white`}]"
 info="Whimsie throws a bomb that will&deal {color_text `specred`}"+string(fuse*2)+" DMG{color_text `white`} upon detonation.&The bomb will have a Fuse of "+string(fuse)+"."
 text="* Whimsie threw a "+use_name+"{color_text `white`}!&* It'll explode in {color_text `whimsie`}"+string(fuse)+" turns{color_text `white`}!{pause}{end}"
 damage=2;
