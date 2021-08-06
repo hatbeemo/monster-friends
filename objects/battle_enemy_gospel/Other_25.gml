@@ -16,6 +16,10 @@ if(enemy_damage_deal>0){
 	audio_play_sound(snd_damage,0,false);
 	image_index=1;
 	_damage_timer=50;
+	if(enemy_damage_deal>=4){
+		_damage_timer=60;
+		image_index=2;	
+	}
 	var shake=instance_create_depth(0,0,0,shaker);
 	shake.target=self;
 	shake.var_name="x";

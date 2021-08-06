@@ -67,6 +67,13 @@ _menu_choice_skill_power[1]=0;
 _menu_choice_item[1]=0;
 _menu_choice_item_first[1]=0;
 _menu_choice_check_description[1]=0;
+_menu_choice_button[2]=0;
+_menu_choice_enemy[2]=0;
+_menu_choice_skill[2]=0;
+_menu_choice_skill_power[2]=0;
+_menu_choice_item[2]=0;
+_menu_choice_item_first[2]=0;
+_menu_choice_check_description[2]=0;
 _menu_dialog=Encounter_GetMenuDialog(ENCOUNTER);
 
 _menu_fight_damage=0;
@@ -92,7 +99,7 @@ _player_temp_def=0;
 _player_temp_spd=0;
 _player_temp_inv=0;
 
-battle_turn_order=[0,1,2,3,4];
+battle_turn_order=[0,2,1,3,4,5];
 turn_event=[-1,-1,-1];
 turn_progress=0;
 
@@ -103,3 +110,5 @@ _ailment_target=0;
 _ailment_damage=0;
 
 _cutscene_mode=0;
+
+_last_ap=0;

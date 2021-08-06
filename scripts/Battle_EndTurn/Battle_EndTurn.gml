@@ -30,9 +30,31 @@ function Battle_EndTurn() {
 	battle._ailment_target=0;
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.GOSPEL_PASSIVE_BOOST,0)
 	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1)
+	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+1,1)
+	if(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_PASSIVE,0)==0){
+		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,2)
+	}else{
+		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)
+	}
 	var proc=0;
 	repeat(battle_ui.party_size){
-		Battle_SetPartyBlock(0,battle_ui.party_member[proc])	
+		var proc2=0;
+		var has_ailment=0;
+		repeat(ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0))){
+			if(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0),proc2)>=1){
+				has_ailment=ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0),proc2)
+				ds_list_set(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0),proc2,ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0),proc2)-1)
+				if(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0),proc2)<=0){
+					has_ailment=-ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0),proc2)
+					ds_list_delete(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0),proc2)
+					ds_list_delete(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc2)
+				}
+			}
+			proc2+=1
+		}
+		if(has_ailment!=14||has_ailment=-14){
+			Battle_SetPartyBlock(0,battle_ui.party_member[proc])	
+		}
 		proc+=1
 	}
 	Battle_GotoNextState();

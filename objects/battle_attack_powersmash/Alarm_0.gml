@@ -22,13 +22,23 @@ if(remove_bomb!=false){
 			event_user(3)
 		}
 	}
-	var bomb_type="Bepis Bomb"
 	if(remove_bomb=="DMG"){
-		bomb_type="Black Bomb"
+		text = "* Whimsie's {color_text `whimsie`}Black Bomb{color_text `white`} was&  destroyed!{pause}{end}"
 	}else if(remove_bomb=="BLOCK"){
-		bomb_type="Smoke Bomb"
+		var has_ailment=0;
+		repeat(ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0))){
+			if(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0),proc)==14){
+				ds_list_set(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc,ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc)+1)
+				has_ailment=1
+			}
+			proc+=1
+		}
+		if(!has_ailment){
+			ds_list_set(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0),proc,14)
+			ds_list_set(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc,2)
+		}
+		text = "* Whimsie's {color_text `whimsie`}Smoke Bomb{color_text `white`} was&  destroyed!&* Whimsie gained {color_text `specaqua2`}1 BLOCK and 1 BLUR{color_text `white`}!{pause}{end}"
 	}
-	text = "* The {color_text `whimsie`}"+bomb_type+"{color_text `white`} was destroyed!{pause}{end}"
 }else{
 	audio_play_sound(snd_hurt,0,false);
 	var vulndamage=1
@@ -36,17 +46,11 @@ if(remove_bomb!=false){
 	repeat(ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0))){
 		if(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0),proc)==1){
 			vulndamage = 1.5
-			ds_list_set(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc,ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc)-1)
-			if(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),proc)<=0){
-				ds_list_clear(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0))
-				ds_list_clear(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0))
-			}
-			break;
 		}
 		proc+=1
 	}
-	Player_HurtParty(round((damage*2+powerboost)*vulndamage),target);
-	Player_EarnDamageSp(damage+powerboost*2);
+	Player_HurtParty(ceil((damage*2+powerboost)*vulndamage),target);
+	Player_EarnDamageSp((damage*2+powerboost)*vulndamage);
 	Camera_Shake(3,3,2,2);
 	if(Battle_GetPartyBlock(target)>0){
 		text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" blocked the damage!{pause}{end}"

@@ -50,6 +50,10 @@ switch(Battle_GetMenu()){
 				audio_play_sound(snd_damage,0,false);
 				image_index=1;
 				_damage_timer=50;
+				if(dmg>=4){
+					_damage_timer=60;
+					image_index=2;	
+				}
 				var shake=instance_create_depth(0,0,0,shaker);
 				shake.target=self;
 				shake.var_name="x";

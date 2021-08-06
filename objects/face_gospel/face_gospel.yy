@@ -1,5 +1,8 @@
 {
-  "spriteId": null,
+  "spriteId": {
+    "name": "spr_fidle_gospel1",
+    "path": "sprites/spr_fidle_gospel1/spr_fidle_gospel1.yy",
+  },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,

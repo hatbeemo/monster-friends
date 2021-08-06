@@ -2,14 +2,14 @@
   "bboxMode": 0,
   "collisionKind": 1,
   "type": 0,
-  "origin": 9,
+  "origin": 7,
   "preMultiplyAlpha": false,
   "edgeFiltering": false,
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
   "bbox_left": 0,
   "bbox_right": 101,
-  "bbox_top": 0,
+  "bbox_top": 26,
   "bbox_bottom": 97,
   "HTile": false,
   "VTile": false,
@@ -24,9 +24,15 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"ef027bcb-505e-4b02-b1e2-b626edc8dc5c","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"ef027bcb-505e-4b02-b1e2-b626edc8dc5c","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":{"name":"d24dfc2e-71c8-489b-9fe5-60ce7bff6aa5","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"spr_enemy_gospel","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"ef027bcb-505e-4b02-b1e2-b626edc8dc5c","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"0b0eb820-d644-4658-a069-cadfc29460db","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"0b0eb820-d644-4658-a069-cadfc29460db","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":{"name":"d24dfc2e-71c8-489b-9fe5-60ce7bff6aa5","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"spr_enemy_gospel","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"0b0eb820-d644-4658-a069-cadfc29460db","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"c606fea8-12a5-42f5-97df-27f6f1842663","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"c606fea8-12a5-42f5-97df-27f6f1842663","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":{"name":"d24dfc2e-71c8-489b-9fe5-60ce7bff6aa5","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"spr_enemy_gospel","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"c606fea8-12a5-42f5-97df-27f6f1842663","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"9f601f7c-1024-40b1-bac9-1dae8802e963","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"9f601f7c-1024-40b1-bac9-1dae8802e963","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"LayerId":{"name":"d24dfc2e-71c8-489b-9fe5-60ce7bff6aa5","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"spr_enemy_gospel","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","name":"9f601f7c-1024-40b1-bac9-1dae8802e963","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"spr_enemy_gospel","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},
@@ -36,12 +42,14 @@
     "playbackSpeedType": 0,
     "autoRecord": true,
     "volume": 1.0,
-    "length": 1.0,
+    "length": 3.0,
     "events": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MessageEventKeyframe>",},
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"94ab4b55-1916-4784-9aca-5a6908412530","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"ef027bcb-505e-4b02-b1e2-b626edc8dc5c","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"5c4c9334-f10a-41bd-9acc-f95cd1a69ec1","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"0b0eb820-d644-4658-a069-cadfc29460db","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"76d8b8f0-a5a7-4cb0-a173-ccdffe034153","Key":1.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"c606fea8-12a5-42f5-97df-27f6f1842663","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"3b63adbd-b70c-4b2c-8739-6fb227e2ad3e","Key":2.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"9f601f7c-1024-40b1-bac9-1dae8802e963","path":"sprites/spr_enemy_gospel/spr_enemy_gospel.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"modifiers":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack",},
     ],
     "visibleRange": null,
@@ -54,7 +62,7 @@
     "backdropHeight": 768,
     "backdropXOffset": 0.0,
     "backdropYOffset": 0.0,
-    "xorigin": 42,
+    "xorigin": 51,
     "yorigin": 98,
     "eventToFunction": {},
     "eventStubScript": null,

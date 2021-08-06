@@ -19,14 +19,7 @@ if(type="DMG"){
 				if(enemy_ailments!=-1){
 					repeat(array_length(enemy_ailments)){
 						if(enemy_ailments[proc2]==1){
-							enemy_damage_deal=round(dmg*1.5);
-							enemy_ailment_numbers[proc2]-=1;
-							if(enemy_ailment_numbers[proc2]<=0){
-								array_delete(enemy_ailments,proc2,1)
-								array_push(enemy_ailments,-1)
-								array_delete(enemy_ailment_numbers,proc2,1)
-								array_push(enemy_ailment_numbers,-1)
-							}
+							enemy_damage_deal=ceil(dmg*1.5);
 						}
 						proc2+=1
 					}
@@ -40,7 +33,7 @@ if(type="DMG"){
 		Battle_SetDialog("");
 	}
 	done=2;
-}else if(type="BLOCK"&&index==0){
+}else if(type="BLOCK"){
 	audio_stop_sound(snd_vaporize)
 	audio_play_sound(snd_vaporize,0,false)
 	if(index==0){
@@ -73,7 +66,7 @@ if(type="DMG"){
 			Battle_SetDialog("* Everyone was protected by the&  Smoke Bomb!&* Party gained {color_text `specaqua`}"+string(damage)+" BLOCK{color_text `white`}!{pause}{end}");
 		}
 	}
-	done=3;
+	done=2;
 }
 Camera_Shake(6,6,2,2);
 explode_timer=2;

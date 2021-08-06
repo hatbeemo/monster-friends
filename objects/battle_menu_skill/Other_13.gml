@@ -4,6 +4,11 @@ if(battle.turn_progress<array_length(battle.battle_turn_order)){
 		battle.turn_progress+=1;
 	}
 }
+if(battle.battle_turn_order[battle.turn_progress]==2&&Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)==2){
+	battle.turn_progress+=1;
+}else if(battle.battle_turn_order[battle.turn_progress]==2){
+	Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,1)
+}
 instance_destroy();
 if(battle.turn_progress>=array_length(battle.battle_turn_order)){
 	if(Player_GetPartyHp(0)<=0){
@@ -12,7 +17,7 @@ if(battle.turn_progress>=array_length(battle.battle_turn_order)){
 		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)
 	}
 	Battle_SetState(BATTLE_STATE.AILMENT_EFFECTS);
-}else if(battle.battle_turn_order[battle.turn_progress]>=2){
+}else if(battle.battle_turn_order[battle.turn_progress]>=3){
 	Battle_SetMenu(BATTLE_MENU.SKILL_EVENT_END);
 	if(Player_GetPartyHp(0)<=0){
 		Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,1)

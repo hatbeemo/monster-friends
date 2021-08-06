@@ -14,8 +14,41 @@ if(_hp<=0){
 		}
 		proc+=1
 	}
-	Battle_SetDialog("* (test){pause}{end}")
-	if(is_vulnerable||powersmash_turns>0){
+	var near_detonate = ceil(instance_number(battle_skill_bomb)/2)
+	var dmg_bomb = 0
+	with(battle_skill_bomb){
+		if(type=="DMG"){
+			dmg_bomb+=1	
+		}
+		if(type=="BLOCK"){
+			dmg_bomb-=1	
+		}
+		if(setfuse==1){
+			near_detonate+=0.5
+		}
+		if(setfuse==2){
+			near_detonate+=1
+			if(fuse==1){
+				near_detonate+=0.5
+			}
+		}
+		if(setfuse==3){
+			near_detonate+=1.5
+			if(fuse==2){
+				near_detonate+=0.5
+			}
+			if(fuse==1){
+				near_detonate+=1
+			}
+		}
+	}
+	if(Player_GetPartyHp(battle_ui.party_member[0])<=7){
+		near_detonate=near_detonate-1
+	}else if(Player_GetPartyHp(battle_ui.party_member[0])<=11){
+		near_detonate=near_detonate-0.5
+	}
+	near_detonate=ceil(near_detonate)
+	if(is_vulnerable||near_detonate>=choose(3,4,5)||powersmash_turns>0){
 		if(ap<=1)
 		{
 			if(sp>=6&&Battle_GetTurnNumber()>=4&&_did_special==0){
@@ -41,28 +74,8 @@ if(_hp<=0){
 			//check_desc[0]="* {color_text `gospel`}Gospel{color_text `white`} - Known SKILLs&* "+check_move[0]+" / "+check_move[1]+"&* "+check_move[2]
 			atk.attack_priority=0;
 			if(instance_exists(battle_skill_bomb)){
-				var near_detonate = ceil(instance_number(battle_skill_bomb)/2)
-				var dmg_bomb = 0
-				with(battle_skill_bomb){
-					if(type=="DMG"){
-						dmg_bomb+=1	
-					}
-					if(type=="BLOCK"){
-						dmg_bomb-=1	
-					}
-					if(fuse<=3){
-						near_detonate+=0.5
-					}
-					if(fuse<=2){
-						near_detonate+=1
-					}
-					if(fuse<=1){
-						near_detonate+=1.5
-					}
-				}
-				near_detonate=round(near_detonate)
 				Battle_SetDialog("{face 30}{face_emotion 7}* Not so fast!{pause}{end}")
-				if(near_detonate>=choose(3,4,5)){
+				if(near_detonate>=3){
 					if(dmg_bomb>=1){
 						atk.remove_bomb="DMG"
 					}else if(dmg_bomb<=-1){

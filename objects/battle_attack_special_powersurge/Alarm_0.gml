@@ -1,4 +1,5 @@
 attacking=false
+audio_play_sound(snd_item_heal,0,false)
 battle_enemy_gospel.new_color=LTAQUA_COLOR;
 battle_enemy_gospel.color_timer=3.5;
 Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.ENEMY_AP_MAX,10))

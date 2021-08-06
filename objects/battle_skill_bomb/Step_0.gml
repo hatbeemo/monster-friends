@@ -18,7 +18,3 @@ if(!instance_exists(battle_damage)&&!instance_exists(text_typer)&&done=2){
 		event_user(2)
 	}
 }
-if(!instance_exists(text_typer)&&done=3){
-	event_user(2)
-	Battle_SetMenuChoiceEnemy(0)
-}

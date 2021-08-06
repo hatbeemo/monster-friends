@@ -4,6 +4,9 @@ if(Battle_GetAp()>=ap_cost)
 {
 	var bomb_num=0
 	with(battle_skill_bomb){
+		if(x==other.bomb_x[other.number%8]){
+			other.number+=1	
+		}
 		if(type=="BLOCK"){
 			bomb_num+=1
 		}

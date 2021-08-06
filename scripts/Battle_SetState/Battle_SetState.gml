@@ -110,16 +110,14 @@ function Battle_SetState() {
 					battle._ailment_max=array_length(enemy_ailments)
 					if(enemy_ailments[proc2]>=1){
 						battle._has_ailment=enemy_ailments[proc2]
-						if(enemy_ailments[proc2]!=1){
-							var number=enemy_ailment_numbers[proc2]
-							enemy_ailment_numbers[proc2]-=1;
-							if(enemy_ailment_numbers[proc2]<=0){
-								battle._has_ailment=-enemy_ailments[proc2]
-								array_delete(enemy_ailments,proc2,1)
-								array_push(enemy_ailments,-1)
-								array_delete(enemy_ailment_numbers,proc2,1)
-								array_push(enemy_ailment_numbers,-1)
-							}
+						var number=enemy_ailment_numbers[proc2]
+						enemy_ailment_numbers[proc2]-=1;
+						if(enemy_ailment_numbers[proc2]<=0){
+							battle._has_ailment=-enemy_ailments[proc2]
+							array_delete(enemy_ailments,proc2,1)
+							array_push(enemy_ailments,-1)
+							array_delete(enemy_ailment_numbers,proc2,1)
+							array_push(enemy_ailment_numbers,-1)
 						}
 					}
 				}

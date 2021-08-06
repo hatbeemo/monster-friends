@@ -8,8 +8,12 @@ function Battle_SetMenuChoiceAction() {
 	}
 
 	if(ACTION>=0 && ACTION<=5){
-		battle._menu_choice_skill[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=ACTION;
-	
+		if(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)==1){
+			battle._menu_choice_skill[2]=ACTION;
+		}else{
+			battle._menu_choice_skill[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=ACTION;
+		}
+		
 		if(CALL){
 			Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.MENU_CHOICE_SWITCH);
 		}

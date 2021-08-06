@@ -1,5 +1,6 @@
 ///@desc Anim
 event_inherited();
+Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,2);
 audio_play_sound(snd_player_atk,0,false)
 battle_ui.new_bar_color=AQUA_COLOR;
 battle_ui.bar_color_timer=2;

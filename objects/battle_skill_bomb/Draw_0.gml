@@ -16,7 +16,7 @@ if(animating==2){
 }
 if(done>=2){
 	explode_timer-=0.1
-	if(explode_timer<0&&done==4){
+	if(explode_timer<0&&done==3){
 		instance_destroy()
 	}
 	explode_grow+=0.05

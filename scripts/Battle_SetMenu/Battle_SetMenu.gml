@@ -59,10 +59,11 @@ function Battle_SetMenu() {
 	//战斗/行动目标
 	if(MENU==BATTLE_MENU.SKILL_TARGET || MENU==BATTLE_MENU.CHECK_TARGET){
 		//越界归零
-		if(Battle_GetMenuChoiceEnemy()>=Battle_GetEnemyNumber()){
-			Battle_SetMenuChoiceEnemy(0,false);
+		if(MENU==BATTLE_MENU.SKILL_TARGET){
+			if(Battle_GetMenuChoiceEnemy()>=Battle_GetEnemyNumber()){
+				Battle_SetMenuChoiceEnemy(0,false);
+			}
 		}
-		
 		var text="";
 		var proc=0;
 		//创建敌人列表文字
@@ -77,6 +78,34 @@ function Battle_SetMenu() {
 				}
 				proc+=1;
 			}
+			if(MENU==BATTLE_MENU.CHECK_TARGET){
+				var proc = 0
+				repeat(battle_ui.party_size){
+					//Create enemy's hp bar
+					if(MENU==BATTLE_MENU.SKILL_TARGET){
+						var inst=instance_create_depth(0,0,0,battle_menu_fight_hp_bar);
+						inst.player_mode=1;
+						inst.enemy_slot=battle_ui.party_member[proc]+1;
+						inst.hp_max=Player_GetPartyHpMax(battle_ui.party_member[proc]);
+						inst.hp=Player_GetPartyHp(battle_ui.party_member[proc]);
+						inst.width=76;
+						inst.color=battle_ui.default_party_color[battle_ui.party_member[proc]];
+					}
+					if(!ds_list_empty(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0))){
+						var inst=instance_create_depth(0,0,0,battle_menu_fight_ailments);
+						inst.ailment_list=ds_list_create();
+						inst.ailment_numbers=ds_list_create();
+						inst.player_mode=1;
+						inst.enemy_slot=battle_ui.party_member[proc]+1;
+						inst.ailment_list=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0)
+						inst.ailment_numbers=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0)
+						Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0)
+						inst.ailment_max=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0))
+					}
+					text+=Player_GetPartyName(proc)+"&";
+					proc+=1;
+				}
+			}
 		}else{
 			if(Battle_GetMenuChoiceEnemy()>=2){
 				Battle_SetMenuChoiceEnemy(0,false);
@@ -86,19 +115,22 @@ function Battle_SetMenu() {
 				if(MENU==BATTLE_MENU.SKILL_TARGET){
 					var inst=instance_create_depth(0,0,0,battle_menu_fight_hp_bar);
 					inst.player_mode=1;
-					inst.enemy_slot=proc;
-					inst.hp_max=Player_GetPartyHpMax(proc);
-					inst.hp=Player_GetPartyHp(proc);
+					inst.enemy_slot=battle_ui.party_member[proc]+1;
+					inst.hp_max=Player_GetPartyHpMax(battle_ui.party_member[proc]);
+					inst.hp=Player_GetPartyHp(battle_ui.party_member[proc]);
 					inst.width=76;
-					inst.color=battle_ui.default_party_color[proc];
+					inst.color=battle_ui.default_party_color[battle_ui.party_member[proc]];
 				}
 				if(!ds_list_empty(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0))){
 					var inst=instance_create_depth(0,0,0,battle_menu_fight_ailments);
+					inst.ailment_list=ds_list_create();
+					inst.ailment_numbers=ds_list_create();
 					inst.player_mode=1;
-					inst.enemy_slot=_enemy_slot;
-					inst.ailment_list=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0)
-					inst.ailment_numbers=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS,0)
-					inst.ailment_max=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS,0))
+					inst.enemy_slot=battle_ui.party_member[proc]+1;
+					inst.ailment_list=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0)
+					inst.ailment_numbers=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0)
+					Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[proc],0)
+					inst.ailment_max=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[proc],0))
 				}
 				text+=Player_GetPartyName(proc)+"&";
 				proc+=1;
@@ -142,8 +174,14 @@ function Battle_SetMenu() {
 			if(object_exists(OBJ)){
 				if(OBJ==battle_menu_skill||Object_GetBaseParent(OBJ)==battle_menu_skill){
 					var inst=instance_create_depth(0,0,0,OBJ);
-					if(battle_ui.party_type[battle.battle_turn_order[battle.turn_progress]]==3){
-						inst.target=battle.battle_turn_order[battle.turn_progress]
+					if(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)==1&&battle.battle_turn_order[battle.turn_progress]==2){
+						if(battle_ui.party_type[0]==3){
+							inst.target=0
+						}
+					}else{
+						if(battle_ui.party_type[battle.battle_turn_order[battle.turn_progress]]==3){
+							inst.target=battle.battle_turn_order[battle.turn_progress]
+						}
 					}
 				}
 			}
@@ -160,10 +198,8 @@ function Battle_SetMenu() {
 	////////////////////////////////////////
 	//行动内容
 	if(MENU==BATTLE_MENU.SKILL_SELECT||MENU==BATTLE_MENU.SKILL_FUSE){
-		var num=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))
-	
 		//越界归零
-		if(Battle_GetMenuChoiceAction()>=num){
+		if(Battle_GetMenuChoiceAction()>=ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))){
 			Battle_SetMenuChoiceAction(0,false);
 		}
 	
@@ -173,19 +209,33 @@ function Battle_SetMenu() {
 		var target=0;
 		//创建行动列表文字
 		repeat(ds_list_size(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0))){
-			if(!target){
-				text+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
-				target=!target;
+			if(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)==1&&Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_PASSIVE+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0)==1&&proc==0){
+				if(!target){
+					text+="Skip Passive&";
+					target=!target;
+				}else{
+					text2+="Skip Passive&";
+					target=!target;
+				}
+				proc+=1;
 			}else{
-				text2+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
-				target=!target;
+				if(!target){
+					text+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
+					target=!target;
+				}else{
+					text2+=Battle_GetSkillName(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone),proc))+"&";
+					target=!target;
+				}
+				proc+=1;
 			}
-			proc+=1;
 		}
-		battle_ui.use_ap=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))
+		battle_ui.use_ap=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))+battle._last_ap
 		Battle_SetDialog(text,true);
 		Battle_SetDialog(text2,true,true);
 		var text3=Battle_GetSkillInfo(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0),Battle_GetMenuChoiceAction()))+"&";
+		if(Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)==1&&Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_PASSIVE+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0)==1){
+			text3=Battle_GetSkillPowerInfo(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0),Battle_GetMenuChoiceAction()))+"&";
+		}
 		battle_ui.hint_active=true;
 		Battle_SetHintDialog(text3,true);
 	}
@@ -208,7 +258,7 @@ function Battle_SetMenu() {
 			}
 			proc+=1;
 		}
-		battle_ui.use_ap=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))
+		battle_ui.use_ap=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))+battle._last_ap
 		Battle_SetDialog(text,true);
 		Battle_SetDialog(text2,true,true);
 		var text3=Battle_GetSkillPowerInfo(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],0),Battle_GetMenuChoiceAction()))+"&";
@@ -218,7 +268,35 @@ function Battle_SetMenu() {
 
 	//物品
 	if(MENU==BATTLE_MENU.BAG){
-		Battle_SetMenuChoiceItem(0,false);
+		var num=Item_GetNumber()
+	
+		//越界归零
+		if(Battle_GetMenuChoiceItem()>=num){
+			Battle_SetMenuChoiceItem(0,false);
+		}
+	
+		var proc=0;
+		var text="";
+		var text2="";
+		var target=0;
+		//创建行动列表文字
+		repeat(Item_GetNumber()){
+			if(Item_IsValid(Item_Get(proc))){
+				if(!target){
+					text+=Item_GetName(Item_Get(proc))+"&";
+					target=!target;
+				}else{
+					text2+=Item_GetName(Item_Get(proc))+"&";
+					target=!target;
+				}
+			}
+			proc+=1;
+		}
+		Battle_SetDialog(text,true);
+		Battle_SetDialog(text2,true,true);
+		var text3=Item_GetInfo(Item_Get(Battle_GetMenuChoiceItem()));
+		battle_ui.hint_active=true;
+		Battle_SetHintDialog(text3,true);
 	}
 
 	//仁慈
@@ -327,8 +405,20 @@ function Battle_SetMenu() {
 			instance_create_depth(0,0,0,battle_menu_enemy_statscrollbar)
 		}
 		var text=""
-		with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy()))){
-			text = check_desc[Battle_GetMenuChoiceCheckDesc()]
+		if(instance_exists(battle_enemy_gospel)){
+			if(Battle_GetMenuChoiceEnemy()==1){
+				with(battle_enemy_gospel){
+					text = player_check_desc[Battle_GetMenuChoiceCheckDesc()]
+				}
+			}else{
+				with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy()))){
+					text = check_desc[Battle_GetMenuChoiceCheckDesc()]
+				}
+			}
+		}else{
+			with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy()))){
+				text = check_desc[Battle_GetMenuChoiceCheckDesc()]
+			}
 		}
 		Battle_SetDialog("{instant true}"+text);
 	}
