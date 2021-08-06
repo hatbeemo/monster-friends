@@ -1,4 +1,4 @@
-ap_cost=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
+ap_cost=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1)-1;
 fuse=Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE,1);
 use_name="{color_text `whimsie`}Smoke Bomb"
 name="Smoke Bomb[{color_text `specaqua`}"+string(ap_cost)+"{color_text `white`}]"
