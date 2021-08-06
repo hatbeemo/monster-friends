@@ -26,5 +26,5 @@ if(!has_vulnerable){
 		array_push(battle_enemy_gospel.enemy_ailment_numbers,1)
 	}
 }
-Battle_SetDialog("* Something revs up from within&  the AUTORIEL's body!{pause}{end}");
+Battle_SetDialog( "* Gospel recovered {color_text `specaqua`}MAX AP{color_text `white`}!&* Gospel gained {color_text `specred`}1 Vulnerable{color_text `white`}!{pause}{end}");
 _done=1;
