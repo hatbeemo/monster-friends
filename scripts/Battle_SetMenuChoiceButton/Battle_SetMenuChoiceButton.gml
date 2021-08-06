@@ -7,7 +7,7 @@ function Battle_SetMenuChoiceButton() {
 		CALL=argument[1];
 	}
 
-	if(BUTTON>=0 && BUTTON<=3){
+	if(BUTTON>=0 && BUTTON<=4){
 		battle._menu_choice_button[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=BUTTON;
 	
 		if(CALL){

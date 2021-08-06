@@ -25,8 +25,21 @@ if(_state==BATTLE_STATE.MENU){
 			}
 			audio_play_sound(snd_menu_switch,0,false);
 			Battle_SetMenuChoiceButton(button);
+		}else if(Input_IsPressed(INPUT.UP)){
+			var button=_menu_choice_button[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)];
+			if(Battle_GetSp()>=6&&button==0){
+				audio_play_sound(snd_menu_switch,0,false);
+				button=4;
+			}
+			Battle_SetMenuChoiceButton(button);
+		}else if(Input_IsPressed(INPUT.DOWN)){
+			var button=_menu_choice_button[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)];
+			if(button==4){
+				audio_play_sound(snd_menu_switch,0,false);
+				button=0;
+			}
+			Battle_SetMenuChoiceButton(button);
 		}
-		
 		//确定
 		if(Input_IsPressed(INPUT.CANCEL)){
 			Battle_PrevMember();
@@ -48,6 +61,11 @@ if(_state==BATTLE_STATE.MENU){
 					break;
 				case 3:
 					turn_event[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=BATTLE_MENU.DEFEND;
+					Battle_NextMember();
+					break;
+				case 4:
+					battle_ui.party_type[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=1;
+					turn_event[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=BATTLE_MENU.SPECIAL;
 					Battle_NextMember();
 					break;
 			}

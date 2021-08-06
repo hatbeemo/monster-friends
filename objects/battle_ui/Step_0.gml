@@ -12,7 +12,17 @@
 //	swap_y[1]=0;
 //}
 if(menu_open>=0||menu_closed>=0){
+	var sp = Battle_GetSp()
 	var open = menu_open
+	var close = menu_close
+	if(!menu_opened&&open>=0&&sp>=6){
+		_menu_move_3=0;
+		Anim_Create(self,"_menu_move_3",ANIM_TWEEN.SINE,ANIM_EASE.OUT,0,-64,15);
+	}else if(!menu_closed&&close>=0&&_menu_move_3<=-64){
+		_menu_move_3=-64;
+		Anim_Create(self,"_menu_move_3",ANIM_TWEEN.SINE,ANIM_EASE.OUT,-64,64,15);
+	}
+	menu_y_special[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)] = _menu_move_3
 	if(!menu_opened&&open>=0){
 		_menu_move=0;
 		Anim_Create(self,"_menu_move",ANIM_TWEEN.SINE,ANIM_EASE.OUT,0,-29,15,0);
@@ -24,7 +34,6 @@ if(menu_open>=0||menu_closed>=0){
 	}else if(open>=0){
 		menu_y[open] = _menu_move
 	}
-	var close = menu_close
 	if(!menu_closed&&close>=0){
 		_menu_move_2=-29;
 		Anim_Create(self,"_menu_move_2",ANIM_TWEEN.LINEAR,ANIM_EASE.OUT,-29,29,7,0);
@@ -51,21 +60,24 @@ if(MENU==BATTLE_MENU.SKILL_POWER||MENU==BATTLE_MENU.SKILL_FUSE){
 	button[2,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[3,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[Battle_GetMenuChoiceSkillPower(),Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=1;
-}else if(STATUS==BATTLE_STATE.MENU && MENU!=BATTLE_MENU.SKILL_EVENT && MENU!=BATTLE_MENU.BAG_EVENT && MENU!=BATTLE_MENU.SKILL_DAMAGE){
+}else if(STATUS==BATTLE_STATE.MENU && MENU!=BATTLE_MENU.SKILL_EVENT && MENU!=BATTLE_MENU.BAG_EVENT && MENU!=BATTLE_MENU.SKILL_DAMAGE && MENU!=BATTLE_MENU.SKILL_DAMAGE_EXTRA && MENU!=BATTLE_MENU.SPECIAL){
 	button[0,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[1,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[2,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[3,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
+	button[4,Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=0;
 	button[Battle_GetMenuChoiceButton(),Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]=1;
 }else{
 	button[0,0]=0;
 	button[1,0]=0;
 	button[2,0]=0;
 	button[3,0]=0;
+	button[4,0]=0;
 	button[0,1]=0;
 	button[1,1]=0;
 	button[2,1]=0;
 	button[3,1]=0;
+	button[4,1]=0;
 }
 if(bar_color_timer>0){
 	bar_color=merge_color(c_dkgray,new_bar_color,clamp(bar_color_timer,0,1));

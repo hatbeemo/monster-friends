@@ -256,6 +256,41 @@ function Battle_SetMenu() {
 			event_user(BATTLE_MENU_FIGHT_EVENT.ANIM);
 		}
 	}
+	
+	//仁慈
+	if(MENU==BATTLE_MENU.SPECIAL){
+		with(battle_ui)
+		{
+			menu_close=menu_open;
+			menu_open=-1;
+			menu_opened=false;
+			menu_closed=false;
+		}
+		if(instance_exists(battle_attack)){
+			with(battle_attack){
+				event_user(BATTLE_TURN_EVENT.TURN_END);
+			}
+		}
+		if(instance_exists(battle_menu_skill)){
+			with(battle_menu_skill){
+				instance_destroy();
+			}
+		}
+		if(instance_exists(item)){
+			with(item){
+				instance_destroy();
+			}
+		}
+		Anim_Destroy(battle_ui,"incoming_y")
+		Anim_Destroy(battle_ui,"incoming_y2")
+		Battle_SetMenuFightAnimTime(0);
+		Battle_SetMenuFightDamageTime(0);
+	
+		var inst=instance_create_depth(0,0,0,Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_SPECIAL+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)],noone));
+		with(inst){
+			event_user(0);
+		}
+	}
 	////////////////////////////////////////
 	if(CALL){
 		Battle_CallEnemyEvent(BATTLE_ENEMY_EVENT.MENU_SWITCH);

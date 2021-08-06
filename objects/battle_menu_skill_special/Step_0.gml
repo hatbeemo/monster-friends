@@ -1,4 +1,4 @@
-if(!instance_exists(battle_damage)&&!instance_exists(text_typer)&&done=2){
+if(!instance_exists(battle_damage)&&_done=1){
 	if(instance_exists(battle_enemy_autoriel)&&Battle_GetEnemyName(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoiceEnemy()))=="AUTORIEL"){
 		var proc=0;
 		if(battle_enemy_autoriel.enemy_ailments!=-1){
@@ -6,19 +6,26 @@ if(!instance_exists(battle_damage)&&!instance_exists(text_typer)&&done=2){
 				if(battle_enemy_autoriel.enemy_ailments[proc]==13){
 					audio_play_sound(snd_item_heal,0,false)
 					Battle_SetDialog("* The AUTORIEL recovered {color_text `specaqua`}"+string(round(damage/2))+"{color_text `white`} AP&  with Kinetic Generator!{pause}{end}")
-					done=3
+					_done=2
 				}
 				proc+=1
 			}
 		}
-		if(done!=3){
-			event_user(2)
+		if(_done!=2){
+			event_user(3)
 		}
 	}else{
-		event_user(2)
+		event_user(3)
 	}
 }
-if(!instance_exists(text_typer)&&done=3){
-	event_user(2)
-	Battle_SetMenuChoiceEnemy(0)
+if(!instance_exists(text_typer)&&_done=0){
+	if(_no_ap){
+		event_user(3)
+	}else{
+		Battle_SetMenu(BATTLE_MENU.SKILL_DAMAGE);
+		_done=1;
+	}
+}
+if(!instance_exists(text_typer)&&_done=2){
+	event_user(3)
 }

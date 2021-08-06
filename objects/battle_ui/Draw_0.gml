@@ -55,6 +55,7 @@ if(party_swap){
 	add = -2
 }
 repeat(party_size){
+	draw_sprite(spr_battle_button_special,button[4,i],x+party_x[i]+10,y+313+menu_y_special[i]);
 	if(menu_open==i||menu_close==i)
 	{
 		draw_sprite_ext(spr_battle_ui_statboxlower,0,x+party_x[i],y+313,1,1,0,party_color[i],1);
@@ -195,7 +196,7 @@ if(STATE==BATTLE_STATE.ATTACK_PHASE){
 }
 if(instance_exists(battle_enemy_autoriel)){
 	if(battle.turn_progress<array_length(battle.battle_turn_order)){
-		if(battle.battle_turn_order[battle.turn_progress]==3||Battle_GetState()==BATTLE_STATE.SECOND_ATTACK_PHASE)&&(!instance_exists(battle_attack_special)){
+		if(battle.battle_turn_order[battle.turn_progress]==3||Battle_GetState()==BATTLE_STATE.SECOND_ATTACK_PHASE)&&(!instance_exists(battle_attack_special)&&!instance_exists(battle_menu_skill_special)){
 			draw_text(x+160,y-incoming_y+26,incoming_name)
 			if(STATE==BATTLE_STATE.SECOND_ATTACK_PHASE){
 				incoming_timer2+=1;
@@ -206,20 +207,20 @@ if(instance_exists(battle_enemy_autoriel)){
 			}
 			draw_text(x+480,y-incoming_y2+26,incoming_name2)
 		}else{
-			if(instance_exists(battle_attack_special)){
+			if(instance_exists(battle_attack_special)||instance_exists(battle_menu_skill_special)){
 				draw_sprite(spr_battle_upper_incoming_specialtxt,0,x+320,y-incoming_y+26)
 			}else{
 				draw_text(x+320,y-incoming_y+26,incoming_name)
 			}
 		}
 	}else{
-		if(instance_exists(battle_attack_special)){
+		if(instance_exists(battle_attack_special)||instance_exists(battle_menu_skill_special)){
 			draw_sprite(spr_battle_upper_incoming_specialtxt,0,x+320,y-incoming_y+24)
 		}else{
 			draw_text(x+320,y-incoming_y+26,incoming_name)
 		}
 	}
-}else if(instance_exists(battle_attack_special)){
+}else if(instance_exists(battle_attack_special)||instance_exists(battle_menu_skill_special)){
 	draw_sprite(spr_battle_upper_incoming_specialtxt,0,x+320,y-incoming_y+26)
 }else{
 	draw_text(x+320,y-incoming_y+26,incoming_name)

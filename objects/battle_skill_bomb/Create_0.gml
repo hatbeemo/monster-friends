@@ -1,5 +1,6 @@
 fuse=1;
-damage=fuse*2;
+setfuse=1;
+damage=setfuse*2;
 animating=0;
 anim=0;
 type="";

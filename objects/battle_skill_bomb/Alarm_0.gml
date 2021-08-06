@@ -9,15 +9,16 @@ if(type="DMG"){
 			bomb_num+=1
 		}
 	}
+	var dmg=(setfuse*2)*bomb_num;
 	var proc=0;
 	repeat(3){
 		with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(proc))){
 			var proc2=0;
-			enemy_damage_deal=other.damage*bomb_num;
+			enemy_damage_deal=dmg;
 			if(enemy_ailments!=-1){
 				repeat(array_length(enemy_ailments)){
 					if(enemy_ailments[proc2]==1){
-						enemy_damage_deal *= 1.5;
+						enemy_damage_deal=round(dmg*1.5);
 						enemy_ailment_numbers[proc2]-=1;
 						if(enemy_ailment_numbers[proc2]<=0){
 							array_delete(enemy_ailments,proc2,1)
@@ -25,7 +26,6 @@ if(type="DMG"){
 							array_delete(enemy_ailment_numbers,proc2,1)
 							array_push(enemy_ailment_numbers,-1)
 						}
-						break;
 					}
 					proc2+=1
 				}
@@ -34,7 +34,7 @@ if(type="DMG"){
 		}
 		proc+=1
 	}
-	Battle_SetMenu(BATTLE_MENU.SKILL_DAMAGE);
+	Battle_SetMenu(BATTLE_MENU.SKILL_DAMAGE_EXTRA);
 	Player_EarnDamageSp(damage*bomb_num);
 	Battle_SetDialog("");
 	done=2;
