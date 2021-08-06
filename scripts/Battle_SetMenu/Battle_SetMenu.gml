@@ -66,7 +66,7 @@ function Battle_SetMenu() {
 		var text="";
 		var proc=0;
 		//创建敌人列表文字
-		if(Battle_GetSkillTarget(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))=="ENEMY"){
+		if(Battle_GetSkillTarget(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))=="ENEMY"||MENU==BATTLE_MENU.CHECK_TARGET){
 			repeat(3){
 				var inst=Battle_GetEnemy(proc);
 				if(instance_exists(inst)){
