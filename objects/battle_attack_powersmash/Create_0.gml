@@ -9,6 +9,6 @@ if(battle_ui.party_size==1||Player_GetPartyHp(battle_ui.party_member[1])<=0){
 }else{
 	target=battle_ui.party_member[irandom(1)]
 }
-damage=1;
+damage=2;
 attack_priority=0;
 remove_bomb=false;

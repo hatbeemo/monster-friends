@@ -147,7 +147,11 @@ if(_state==BATTLE_STATE.MENU){
 			}else if(battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]==0&&Battle_IsSkillBomb(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))){
 				if(Battle_GetAp()>=Battle_GetSkillApCost(ds_list_find_value(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_MOVESETS+battle_ui.party_member[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]),Battle_GetMenuChoiceAction()))+_last_ap){
 					audio_play_sound(snd_menu_confirm,0,false);
-					Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0),1);
+					var add_passive = Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)
+					if(add_passive>=2){
+						add_passive=0;
+					}
+					Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+add_passive,1);
 					Battle_SetMenuChoiceSkillPower(0);
 					Battle_SetMenu(BATTLE_MENU.SKILL_FUSE);
 				}else{
@@ -255,7 +259,11 @@ if(_state==BATTLE_STATE.MENU){
 			if(action>=0){
 				audio_play_sound(snd_menu_switch,0,false);
 				Battle_SetMenuChoiceSkillPower(action);
-				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0),Battle_GetMenuChoiceSkillPower()+1);
+				var add_passive = Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)
+				if(add_passive>=2){
+					add_passive=0;
+				}
+				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+add_passive,Battle_GetMenuChoiceSkillPower()+1);
 				Battle_SetMenu(BATTLE_MENU.SKILL_FUSE);
 			}
 		}else if(Input_IsPressed(INPUT.RIGHT)){
@@ -263,14 +271,22 @@ if(_state==BATTLE_STATE.MENU){
 			if(action<=2){
 				audio_play_sound(snd_menu_switch,0,false);
 				Battle_SetMenuChoiceSkillPower(action);
-				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0),Battle_GetMenuChoiceSkillPower()+1);
+				var add_passive = Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)
+				if(add_passive>=2){
+					add_passive=0;
+				}
+				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+add_passive,Battle_GetMenuChoiceSkillPower()+1);
 				Battle_SetMenu(BATTLE_MENU.SKILL_FUSE);
 			}
 		}
 
 		//返回/确定
 		if(Input_IsPressed(INPUT.CANCEL)){
-			Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0),1);
+			var add_passive = Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_PASSIVE_ACTIVE,0)
+			if(add_passive>=2){
+				add_passive=0;
+			}
+			Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.WHIMSIE_BOMB_FUSE+add_passive,1);
 			audio_play_sound(snd_menu_switch,0,false);
 			Battle_SetMenu(BATTLE_MENU.SKILL_SELECT);
 		}else if(Input_IsPressed(INPUT.CONFIRM)){
@@ -493,11 +509,6 @@ if(_state==BATTLE_STATE.MENU){
 		battle_soul.y=354+36+32*floor(_menu_choice_item[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)]/2);
 		
 		//返回
-		if(Input_IsPressed(INPUT.CANCEL)){
-			audio_play_sound(snd_menu_switch,0,false);
-			Battle_SetMenu(BATTLE_MENU.BUTTON);
-		}
-		//确定
 		if(Input_IsPressed(INPUT.CANCEL)){
 			audio_play_sound(snd_menu_switch,0,false);
 			Battle_SetMenu(BATTLE_MENU.BUTTON);

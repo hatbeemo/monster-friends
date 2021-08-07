@@ -30,4 +30,5 @@ if(!has_vulnerable){
 	}
 }
 Battle_SetDialog( "* Gospel recovered {color_text `specaqua`}MAX AP{color_text `white`}!&* Gospel gained {color_text `specred`}1 Vulnerable{color_text `white`}!{pause}{end}");
+Battlelog_Add("Gospel recovered MAX AP!\nGospel gained 1 Vulnerable!\n")
 _done=1;

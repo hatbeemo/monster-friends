@@ -19,7 +19,9 @@ if(Battle_GetAp()>=ap_cost)
 	inst.damage=fuse*2;
 	inst.index=bomb_num
 	Battle_SetDialog(text)
+	Battlelog_Add("Whimsie threw a Black Bomb!\nIt'll explode in "+string(fuse)+" turns!\n")
 	Battle_SetAp(Battle_GetAp()-ap_cost)
 }else{
 	Battle_SetDialog("* Whimsie had insufficient AP to use&  "+use_name+"{color_text `white`}!{pause}{end}")
+	Battlelog_Add("Whimsie had insufficient AP to use Black Bomb!\n")
 }

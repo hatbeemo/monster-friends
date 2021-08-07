@@ -3,12 +3,8 @@ function Player_HurtParty() {
 	var DAMAGE=argument[0];
 	var MEMBER=argument[1];
 	if(DAMAGE>=0){
-		var BLOCK=Battle_GetPartyBlock(MEMBER);
-		Battle_SetPartyBlock(BLOCK-DAMAGE,MEMBER);
-		if(Battle_GetPartyBlock(MEMBER)<=0){
-			var HP=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_HP+MEMBER)
-			Flag_Set(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_HP+MEMBER,(HP-(DAMAGE-BLOCK)>=0 ? HP-(DAMAGE-BLOCK) : 0));
-		}
+		var HP=Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_HP+MEMBER)
+		Flag_Set(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_HP+MEMBER,(HP-DAMAGE>=0 ? HP-DAMAGE : 0));
 		battle_ui.new_bar_color=RED_COLOR;
 		battle_ui.bar_color_timer=2;
 		battle_ui.new_hp_color[MEMBER]=RED_COLOR;

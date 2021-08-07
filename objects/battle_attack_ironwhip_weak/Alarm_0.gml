@@ -41,18 +41,23 @@ if(remove_bomb!=false){
 		ds_list_add(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS+battle_ui.party_member[0],0),1)
 		ds_list_add(Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_AILMENTS_NUMBERS+battle_ui.party_member[0],0),2)
 	}
-	var oldhp = Player_GetPartyHp(target)
-	Player_HurtParty(ceil((damage+powerboost)*vulndamage),target);
-	Player_EarnDamageSp((damage+powerboost)*vulndamage);
+	Player_EarnDamageSp(ceil((damage+powerboost)*vulndamage));
 	Camera_Shake(3,3,2,2);
-	if(Player_GetPartyHp(target)==oldhp){
+	text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" took {color_text `specred`}"+string(clamp(ceil((damage+powerboost)*vulndamage)-Battle_GetPartyBlock(target),0,ceil((damage+powerboost)*vulndamage)))+"{color_text `white`} damage!&"
+	var log = "Whimsie takes "+string(clamp(ceil((damage+powerboost)*vulndamage)-Battle_GetPartyBlock(target),0,ceil((damage+powerboost)*vulndamage)))+" damage!\n"
+	if(ceil((damage+powerboost)*vulndamage)-Battle_GetPartyBlock(target)<=0){
 		text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" blocked the damage!&"
+		Battlelog_Add("Whimsie blocked the damage!\n")
 	}else{
-		text = "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" took {color_text `specred`}"+string(round((damage+powerboost)*vulndamage)-Battle_GetPartyBlock(target))+"{color_text `white`} damage!&"
+		Battlelog_Add(log)
 	}
+	Player_HurtParty(clamp(ceil((damage+powerboost)*vulndamage)-Battle_GetPartyBlock(target),0,ceil((damage+powerboost)*vulndamage)),target);
+	Battle_SetPartyBlock(clamp(Battle_GetPartyBlock(target)-ceil((damage+powerboost)*vulndamage),0,Battle_GetPartyBlock(target)),target);
 	text += "* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" gained {color_text `specred`}1 Vulnerable{color_text `white`}!{pause}{end}"
+	Battlelog_Add("Whimsie gained 1 Vulnerable!\n")
 	if(Player_GetPartyHp(target)<=0){
 		text="* "+Flag_Get(FLAG_TYPE.STATIC,FLAG_STATIC.PARTY_NAME+target,"")+" was unable to continue&  fighting!{pause}{end}"
+		Battlelog_Add("Whimsie was unable to continue fighting!\n")
 	}
 }
 Battle_SetDialog(text);

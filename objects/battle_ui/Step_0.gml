@@ -18,9 +18,9 @@ if(menu_open>=0||menu_closed>=0){
 	if(!menu_opened&&open>=0&&sp>=6){
 		_menu_move_3=0;
 		Anim_Create(self,"_menu_move_3",ANIM_TWEEN.SINE,ANIM_EASE.OUT,0,-64,15);
-	}else if(!menu_closed&&close>=0&&_menu_move_3<=-64){
-		_menu_move_3=-64;
-		Anim_Create(self,"_menu_move_3",ANIM_TWEEN.SINE,ANIM_EASE.OUT,-64,64,15);
+	}else if(!menu_closed&&close>=0){
+		Anim_Destroy(self,"_menu_move_3")
+		Anim_Create(self,"_menu_move_3",ANIM_TWEEN.SINE,ANIM_EASE.OUT,_menu_move_3,-_menu_move_3,15);
 	}
 	menu_y_special[Flag_Get(FLAG_TYPE.TEMP,FLAG_TEMP.MEMBER_ACTIVE,0)] = _menu_move_3
 	if(!menu_opened&&open>=0){

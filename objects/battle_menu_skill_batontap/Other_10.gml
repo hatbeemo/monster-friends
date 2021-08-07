@@ -13,3 +13,4 @@ with(Battle_GetEnemy(Battle_ConvertMenuChoiceEnemyToEnemySlot(Battle_GetMenuChoi
 	}
 }
 Battle_SetDialog(text)
+Battlelog_Add("Whimsie used Baton Tap!\n")

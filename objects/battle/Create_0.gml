@@ -112,3 +112,5 @@ _ailment_damage=0;
 _cutscene_mode=0;
 
 _last_ap=0;
+
+_ailment_names=["","Vulnerable","Burn","Bound","Fortress Aura","Energy Aura","Power Aura","Life Aura","Ultimate Aura","Coiled","AP Style","SP Style","Targeting","Kinetic Generator","Blur"]

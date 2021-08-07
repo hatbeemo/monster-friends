@@ -68,8 +68,8 @@ repeat(party_size){
 		    draw_set_alpha(sin(matrix_x / 60));
 		    if (cos((matrix_x / 60)) < 0)
 		    {
-				draw_line_width(x+party_x[i]-sin(matrix_x/60)*30+30,y+312,x+party_x[i]-sin(matrix_x/60)*30+30,y+312+29,2);
-				draw_line_width(x+party_x[i]+206+sin(matrix_x/60)*30,y+312,x+party_x[i]+206+sin(matrix_x/60)*30,y+312+29,2);
+				draw_line_width(x+party_x[i]-sin(matrix_x/60)*30+31,y+312,x+party_x[i]-sin(matrix_x/60)*30+31,y+312+30,2);
+				draw_line_width(x+party_x[i]+207+sin(matrix_x/60)*30,y+312,x+party_x[i]+207+sin(matrix_x/60)*30,y+312+30,2);
 		    }
 			j+=1;
 		}

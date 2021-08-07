@@ -3,7 +3,7 @@ draw_set_font(font_8bit_wonder)
 draw_set_color(c_white)
 draw_text_transformed(320,20,text,3,3,0)
 draw_set_font(determination_sans)
-draw_text_transformed(320,80,"Press Z or ENTER to retry.",2,2,0)
+draw_text_transformed(320,80,retry_text[current_tip%3],2,2,0)
 draw_set_halign(fa_left)
 if(won==true){
 	
@@ -22,8 +22,8 @@ if(won==true){
 	draw_text(X+49+45,Y+12,"20");
 	draw_set_halign(fa_left);
 	draw_set_font(determination_sans)
-	draw_text_transformed(20,190,"Turns Lasted: "+string(global.turns_lasted+1),2,2,0)
+	draw_text_transformed(20,190,"Turns lasted: "+string(global.turns_lasted),2,2,0)
 	draw_text_transformed(20,340,"Tips:",2,2,0)
 	draw_set_font(determination_mono)
-	draw_text_transformed(20,374,tips[current_tip],2,2,0)
+	draw_text_transformed(20,374,tips[current_tip%4],2,2,0)
 }
